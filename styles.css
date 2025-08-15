@@ -10,6 +10,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    user-select: none;
 }
 
 body {
@@ -92,7 +93,7 @@ fieldset {
     padding: 0;
 }
 
-input[type="radio"] {
+input[type="checkbox"] {
   display: none;
 }
 
@@ -120,12 +121,12 @@ fieldset span {
     cursor: url(./assets/images/cursor/shield.png), pointer;
 }
 
-.attack-buttons label input[type="radio"]:checked+span {
+.attack-buttons label input[type="checkbox"]:checked+span {
     background: red;
     color: white;
 }
 
-.defend-buttons label input[type="radio"]:checked+span {
+.defend-buttons label input[type="checkbox"]:checked+span {
     background: blue;
     color: white;
 }
