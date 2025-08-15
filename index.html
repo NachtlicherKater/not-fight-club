@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="./assets/favicon.webp" type="image/webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1c22">
+    <title>Not A Secret Task</title>
+</head>
+<body>
+    <div class="container">
+        <div class="user-field">
+            <div class="character-blank">
+                <div class="user-info">
+                    <h1>Player Name</h1>
+                    <p>Health: 100</p>
+                    <p>Mana: 50</p>
+                </div>
+                <img src="./assets/images/yellow-slime/idle/idle-2.png">
+                <div class="user-stats">
+                    <p>Level: 1</p>
+                    <p>Experience: 0/100</p>
+                    <p>Gold: 50</p>
+                </div>
+                <div class="user-actions">
+                    <button>Attack</button>
+                    <button>Defend</button>
+                    <button class="use-item-input">Use Item</button>
+                </div>
+            </div>
+        </div>
+        <div class="enemy-field">
+            <div class="enemy-blank">
+                <div class="enemy-info">
+                    <h1>Enemy Name</h1>
+                    <p>Health: 100</p>
+                    <p>Mana: 50</p>
+                </div>
+                <img src="./assets/images/yellow-slime/idle/idle-2.png">
+                <div class="ememy-stats">
+                    <p>Level: 1</p>
+                    <p>Experience: 0/100</p>
+                    <p>Gold: 50</p>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="action-buttons">
+                <fieldset class="attack-buttons">
+                    <legend class="cursor-attack">Атака</legend>
+                    <label><input type="radio" name="attack" value="atk-head"><span>Совершить удар в голову</span></label>
+                    <label><input type="radio" name="attack" value="atk-chest"><span>Совершить удар в грудь</span></label>
+                    <label><input type="radio" name="attack" value="atk-torso"><span>Совершить удар в туловище</span></label>
+                    <label><input type="radio" name="attack" value="atk-groin"><span>Совершить удар в пояс (пах)</span></label>
+                    <label><input type="radio" name="attack" value="atk-legs"><span>Совершить удар по ногам</span></label>
+                </fieldset>
+                <div class="central-thing">
+                    <div class="make a turn">
+                        <button><span>Сделать ход!</span></button>
+                    </div>
+                    <div class="hitting-indicator"><img src="./assets/images/hitting-indicator/hitting-indicator.png"></div>
+                </div>
+                <fieldset class="defend-buttons">
+                    <legend>Защита</legend>
+                    <label><input type="radio" name="defend" value="def-head"><span>Защититься от удара в голову</span></label>
+                    <label><input type="radio" name="defend" value="def-chest"><span>Защититься от удара в грудь</span></label>
+                    <label><input type="radio" name="defend" value="def-torso"><span>Защититься от удара в туловище</span></label>
+                    <label><input type="radio" name="defend" value="def-groin"><span>Защититься от удара в пояс (пах)</span></label>
+                    <label><input type="radio" name="defend" value="def-legs"><span>Защититься от удара по ногам</span></label>
+                </fieldset>
+            </div>
+            
+        </div>
+        <div class="battle-logs">
+
+        </div>
+    </div>
+<script src="./scripts/hitting-indicator.js"></script>
+</body>
+</html>
