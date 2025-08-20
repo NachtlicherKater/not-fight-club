@@ -23,6 +23,10 @@ body {
     background: var(--background)                 
 }
 
+.invert {
+    transform: scaleX(-1);
+}
+
 .registration-form {
     display: flex;
     flex-wrap: wrap;
@@ -41,6 +45,19 @@ body {
     padding: 20px;
 }
 
+.player-pokemon-picture, .enemy-pokemon-picture {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.player-pokemon-picture img, .enemy-pokemon-picture img {
+    max-width: 320px; 
+    max-height: 400px;
+}
+
 .container {
     width: 1500px;
     height: 900px;
@@ -52,7 +69,7 @@ body {
     grid-template-rows: repeat(2, 1fr);
 }
 
-.character-blank {
+#character-blank {
     margin: 0px;
     padding: 10px;
     background: var(--character-card);
