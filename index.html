@@ -9,15 +9,39 @@
     <title>Not A Secret Task</title>
 </head>
 <body>
+    <div class="registration-form">
+        <div class="reg-form-l-column">
+            <h1>Давайте знакомиться</h1>
+            <label>Ваш никнейм: <input type="text" id="nick-input" required></label>
+            <button type="submit" id="save-name">Сохранить</button>
+            <legend>Ваш пол: 
+                <label><input type="radio" name="sex" value="male" checked>Мужчина</label>
+                <label><input type="radio" name="sex" value="female">Женщина</label>
+            </legend>
+            <ul>
+                <li><label>Бульбазавр<input type="radio" name="selected-pokemon" value="bulbasaur" checked></label></li>
+                <li><label>Сквиртл<input type="radio" name="selected-pokemon" value="squirtle"></label></li>
+                <li><label>Чармандер<input type="radio" name="selected-pokemon" value="charmander"></label></li>
+                <li><label>Чаризард<input type="radio" name="selected-pokemon" value="charizard"></label></li>
+            </ul>
+        </div>
+        <div class="reg-form-r-column">
+            <p class="player-name">User-Name</p>
+            <div id="reg-form-container-img">
+                <img src="./assets/images/characters/bulbasaur/static.png">
+            </div>
+            
+        </div>
+    </div>
     <div class="container">
         <div class="user-field">
             <div class="character-blank">
                 <div class="user-info">
-                    <h1>Player Name</h1>
+                    <p class="player-name">Player Name</p>
                     <p>Health: 100</p>
                     <p>Mana: 50</p>
                 </div>
-                <img src="./assets/images/yellow-slime/idle/idle-2.png">
+                <img src="./assets/images/characters/bulbasaur/tkn-dmg.png">
                 <div class="user-stats">
                     <p>Level: 1</p>
                     <p>Experience: 0/100</p>
@@ -33,11 +57,11 @@
         <div class="enemy-field">
             <div class="enemy-blank">
                 <div class="enemy-info">
-                    <h1>Enemy Name</h1>
+                    <p id="enemy-name">Enemy Name</p>
                     <p>Health: 100</p>
                     <p>Mana: 50</p>
                 </div>
-                <img src="./assets/images/yellow-slime/idle/idle-2.png">
+                <img src="./assets/images/characters/bulbasaur/static.png">
                 <div class="ememy-stats">
                     <p>Level: 1</p>
                     <p>Experience: 0/100</p>
@@ -76,6 +100,7 @@
 
         </div>
     </div>
+<script src="./scripts/user-info.js"></script>
 <script src="./scripts/hitting-indicator.js"></script>
 </body>
 </html>
