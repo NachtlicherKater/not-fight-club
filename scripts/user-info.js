@@ -94,6 +94,7 @@ mainPageButton.addEventListener("click", () => {
 battleButton.addEventListener("click", () => {
   battlePage.classList.remove("hide");
   battlePage.classList.add("show");
+  mainPage.classList.remove("show");
   mainPage.classList.add("hide");
 });
 
