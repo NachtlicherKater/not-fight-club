@@ -15,6 +15,8 @@
                                     #1a1c22,
                                     #d44949 80%,
                                     #1a1c22 );
+    --main-border: 2px solid #1a1c22;
+    --reg-settings-border: 3px solid #5a5c6a;
 }
 
 * {
@@ -28,13 +30,15 @@
 body {
     width: 100%;
     height: 100%;
-    background: var(--background)                 
+    background: var(--background);     
 }
 
 .invert {
     transform: scaleX(-1);
 }
 
+
+/*--REGISTRATION SECTION--*/
 .registration-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -76,7 +80,7 @@ body {
 
 #sex-selector label{
     font-weight: bold; 
-    border: 2px solid #1a1c22; 
+    border: var(--main-border); 
     border-radius: 5px; 
     padding: 10px; 
     cursor: pointer;
@@ -121,7 +125,7 @@ body {
     font-style: italic;
     padding: 10px;
     cursor: pointer;
-    border: 2px solid #1a1c22;
+    border: var(--main-border);
     border-radius: 7px;
  }
 
@@ -141,7 +145,7 @@ body {
 }
 
 #save-name {
-    border: 2px solid #1a1c22;
+    border: var(--main-border);
     border-radius: 7px;
     cursor: pointer;
     background-color: #5a5c6a;
@@ -153,7 +157,7 @@ body {
 }
 #save-name:hover {background-color: #65cf61;}
 #save-name:active {background-color: #c8cf61;}
-h1 { 
+h2 { 
     grid-area: 1 / 1 / 2 / 3; 
     font-size: 90px; 
     text-align: center; 
@@ -163,14 +167,14 @@ h1 {
 
 .reg-form-l-column {
     grid-area: 2 / 1 / 3 / 2;
-    border: 3px solid #5a5c6a;
+    border: var(--reg-settings-border);
     border-radius: 7px 0px 0px 7px;
     border-right: 0px;
 }
 
 .reg-form-r-column {
     grid-area: 2 / 2 / 3 / 3;
-    border: 3px solid #5a5c6a;
+    border: var(--reg-settings-border);
     border-radius: 0px 7px 7px 0px;
     align-items: center;
     background: var(--character-card);
@@ -202,14 +206,40 @@ h1 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.hide-reg-form {
-    animation: hide-reg-form 0s forwards;
-}
-@keyframes hide-reg-form {
-    from {display: grid;}  to {display: none;}
+.show {animation: show 0s forwards;}
+@keyframes show {from {display: none;} to {display: grid;}}
+.hide {animation: hide 0s forwards;}
+@keyframes hide {from {display: block;} to {display: none;}}
+.show-settings {animation: show 0s forwards;}
+@keyframes show {from {z-index: -1; display: none;} to {z-index: 20; display: grid;}}
+.hide-settings {animation: hide 0s forwards;}
+@keyframes hide {from {z-index: 20; display: grid;} to {z-index: -1; display: none;}}
+
+
+/*--MAIN BUTTONS OF GAME--*/
+.main-buttons {
+    position: relative;
+    width: 1500px;
+    height: 50px;
+    border-radius: 10px;
+    margin: 0px auto;
+    z-index: 20;
 }
 
-.fight-container {
+
+/*--MAIN PAGE--*/
+.main-page {
+    position: relative;
+    width: 1500px;
+    height: 900px;
+    background: grey;
+    border: var(--main-border);
+    margin: 0 auto;
+}
+
+
+/*--BATTLE SECTION--*/
+.battle-page {
     width: 1500px;
     height: 900px;
     border-radius: 10px;
@@ -263,7 +293,7 @@ h1 {
     display: flex;
 }
 
-.fight-container legend {
+.battle-page legend {
     width: 100%;
     font-size: 2.5rem;
     font-weight: bold;
@@ -273,16 +303,16 @@ h1 {
     color: #b6cfe4;
 }
 
-.fight-container fieldset {
+.battle-page fieldset {
     border: none;
     padding: 0;
 }
 
-.fight-container input[type="checkbox"] {
+.battle-page input[type="checkbox"] {
   display: none;
 }
 
-.fight-container fieldset span {
+.battle-page fieldset span {
   display: block;
   padding: 10px 20px;
   border: 2px solid #444;
@@ -330,4 +360,32 @@ h1 {
 .battle-logs {
     grid-area: 2 / 2 / 3 / 4;
     border-bottom: var(--outline-border);
+}
+
+
+/*--SETTINGS SECTION--*/
+.settings-page {
+    position: fixed;
+    top: 0;
+    left: calc((100% - 1500px) / 2);
+    z-index: 10; 
+    background: grey;
+    width: 1500px;
+    height: 100%;
+}
+
+#close-settings {position: absolute;}
+
+.settings-page .reg-form-l-column {
+    grid-area: 1 / 1 / 2 / 2;
+    border: 3px solid #5a5c6a;
+    border-radius: 7px 0px 0px 7px;
+    border-right: 0px;
+}
+
+.settings-page .reg-form-r-column {
+    grid-area: 1 / 2 / 2 / 2;
+    border: 3px solid #5a5c6a;
+    border-radius: 7px 0px 0px 7px;
+    border-right: 0px;
 }
