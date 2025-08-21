@@ -2,13 +2,18 @@ const nickInput = document.getElementById('nick-input');
 const confirmButton = document.getElementById('save-name');
 const playerName = document.querySelectorAll('.player-name'); // all player-names
 const avatarContainer = document.querySelectorAll('.player-pokemon-picture');
+const registrationWindow = document.querySelector('.registration-form');
 
 
 const savedNick = localStorage.getItem("nickname");
 const savedSex = localStorage.getItem("sex");
 const savedPokemon = localStorage.getItem("selectedPokemon");
+const isRegistered = localStorage.getItem("isRegistered");
 
 
+if (isRegistered === "true") {
+  registrationWindow.classList.add("hide-reg-form"); //hide reg form
+}
 if (savedNick) {        
   playerName.forEach(element => {
   element.textContent = savedNick;
@@ -40,6 +45,8 @@ confirmButton.addEventListener("click", () => {
   localStorage.setItem("selectedPokemon", selectedPokemon);
   avatarContainer.forEach(container => {
   container.innerHTML = `<img src="./assets/images/characters/${selectedPokemon}/static.png" alt="This is ${selectedPokemon} !!!">`;
+  localStorage.setItem("isRegistered" , true);
+  registrationWindow.classList.add("hide-reg-form"); //hide it on 1st time
 });
  });
 
