@@ -1,0 +1,333 @@
+:root {
+    --outline-border: 4px solid #5a5c6a;
+    --character-card: radial-gradient(circle, #eeeae7 1%, #b6cfe4 50%, #92a0a1 100%);
+    --background: linear-gradient(180deg,
+                                #1a1c22 0%,
+                                #5a5c6a 65%,
+                                #a7a8b2 10%,
+                                #5a5c6a 65%,
+                                #1a1c22 100%);
+    --selected-button: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #719db2 80%,
+                                    #1a1c22 );
+    --selected-buttons: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #d44949 80%,
+                                    #1a1c22 );
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    user-select: none;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background: var(--background)                 
+}
+
+.invert {
+    transform: scaleX(-1);
+}
+
+.registration-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    padding: 20px 350px;
+    position: fixed;
+    z-index: 30;
+    width: 100%;
+    height: 100dvh;
+    background: var(--background);
+}
+
+#ask-about-nick, #ask-about-nick input, #sex-selector, #sex-selector label {
+    font-size: 35px;
+}
+#ask-about-nick input {text-align: center; width: 80%; margin: 0 auto;}
+#ask-about-nick input::placeholder {
+    font-size: 30px; 
+    text-align: center;
+}
+#ask-about-nick, #sex-selector {
+    display: grid;
+    font-weight: bold;
+    row-gap: 10px;
+}
+
+#ask-about-nick {
+    grid-template-columns: 1fr;
+}
+
+#sex-selector {
+    column-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    grid-area: 1 / 1 / 2 / 3;
+}
+#sex-selector label:nth-of-type(1){grid-area: 2 / 1 / 3 / 2;}
+#sex-selector label:nth-of-type(2){grid-area: 2 / 2 / 3 / 2;}
+#sex-selector input {appearance: none;}
+
+#sex-selector label{
+    font-weight: bold; 
+    border: 2px solid #1a1c22; 
+    border-radius: 5px; 
+    padding: 10px; 
+    cursor: pointer;
+    text-align: center;
+    text-shadow:
+        1px 1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white,
+        0 1px 0 white,
+        0 -1px 0 white,
+        1px 0 0 white,
+        -1px 0 0 white;
+     }
+#sex-selector label:has(input:checked) {
+    background: var(--selected-button); 
+    color: gainsboro; 
+    text-shadow:
+        1px 1px 0 black,
+        -1px 1px 0 black,
+        1px -1px 0 black,
+        -1px -1px 0 black,
+        0 1px 0 black,
+        0 -1px 0 black,
+        1px 0 0 black,
+        -1px 0 0 black;
+}
+
+.pokemon-list-selector {
+    list-style: none;
+}
+
+.pokemon-list-selector input[type="radio"] {
+    display: none;
+}
+
+.pokemon-list-selector label {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 25px;
+    font-style: italic;
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid #1a1c22;
+    border-radius: 7px;
+ }
+
+
+.pokemon-list-selector label:has(input[type="radio"]:checked) {
+  background: var(--selected-buttons);
+  color: gainsboro;
+  text-shadow:
+    1px 1px 0 black,
+    -1px 1px 0 black,
+    1px -1px 0 black,
+    -1px -1px 0 black,
+    0 1px 0 black,
+    0 -1px 0 black,
+    1px 0 0 black,
+    -1px 0 0 black;
+}
+
+#save-name {
+    border: 2px solid #1a1c22;
+    border-radius: 7px;
+    cursor: pointer;
+    background-color: #5a5c6a;
+    font-size: 30px;
+    width: 60%;
+    margin: 0 auto;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+#save-name:hover {background-color: #65cf61;}
+#save-name:active {background-color: #c8cf61;}
+h1 { 
+    grid-area: 1 / 1 / 2 / 3; 
+    font-size: 90px; 
+    text-align: center; 
+    padding: 10px;
+    margin-bottom: -100px;
+}
+
+.reg-form-l-column {
+    grid-area: 2 / 1 / 3 / 2;
+    border: 3px solid #5a5c6a;
+    border-radius: 7px 0px 0px 7px;
+    border-right: 0px;
+}
+
+.reg-form-r-column {
+    grid-area: 2 / 2 / 3 / 3;
+    border: 3px solid #5a5c6a;
+    border-radius: 0px 7px 7px 0px;
+    align-items: center;
+    background: var(--character-card);
+}
+
+.reg-form-l-column, .reg-form-r-column {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.player-pokemon-picture, .enemy-pokemon-picture {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.player-pokemon-picture img, .enemy-pokemon-picture img {
+    max-width: 320px; 
+    max-height: 400px;
+}
+
+.player-name, #enemy-name {
+    font-size: 55px;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.hide-reg-form {
+    animation: hide-reg-form 0s forwards;
+}
+@keyframes hide-reg-form {
+    from {display: grid;}  to {display: none;}
+}
+
+.container {
+    width: 1500px;
+    height: 900px;
+    border-radius: 10px;
+    margin: 0px auto;
+    background: #1a1c22;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+#character-blank {
+    margin: 0px;
+    padding: 10px;
+    background: var(--character-card);
+    border-radius: 5px 0px 5px 5px;
+}
+
+.enemy-blank {
+    margin: 0px;
+    padding: 10px;
+    background: var(--character-card);
+    border-radius: 0px 5px 5px 5px;
+}
+
+.user-field {
+    grid-area: 1 / 1 / 3 / 2;
+    border: var(--outline-border);
+    border-radius: 10px 0px 0px 10px;
+}
+
+.enemy-field {
+    grid-area: 1 / 4 / 3 / 5;
+    border: var(--outline-border);
+    border-radius: 0px 10px 10px 0px;
+}
+
+.controls {
+    grid-area: 1 / 2 / 2 / 4;
+    border-top: var(--outline-border);
+    border-bottom: var(--outline-border);
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+}
+
+.action-buttons input {
+    display: inline-block;
+    display: flex;
+}
+
+.container legend {
+    width: 100%;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #b6cfe4;
+}
+
+.container fieldset {
+    border: none;
+    padding: 0;
+}
+
+.container input[type="checkbox"] {
+  display: none;
+}
+
+.container fieldset span {
+  display: block;
+  padding: 10px 20px;
+  border: 2px solid #444;
+  border-radius: 5px;
+  margin: 5px;
+  background: #f0f0f0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.attack-buttons, .defend-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.attack-buttons *{
+    cursor: url(./assets/images/cursor/sword.png), pointer;
+}
+.defend-buttons *{
+    cursor: url(./assets/images/cursor/shield.png), pointer;
+}
+
+.attack-buttons label input[type="checkbox"]:checked+span {
+    background: red;
+    color: white;
+}
+
+.defend-buttons label input[type="checkbox"]:checked+span {
+    background: blue;
+    color: white;
+}
+
+.hitting-indicator {
+    position: relative;
+}
+
+.hitting-indicator img {
+    height: 300px;
+    position: absolute;
+    margin: 0 calc((100% - 154.2px) / 2); 
+    top: 120px;
+}
+
+.battle-logs {
+    grid-area: 2 / 2 / 3 / 4;
+    border-bottom: var(--outline-border);
+}
