@@ -3,15 +3,21 @@
     --character-card: radial-gradient(circle, #eeeae7 1%, #b6cfe4 50%, #92a0a1 100%);
     --background: linear-gradient(180deg,
                                 #1a1c22 0%,
-                                #5a5c6a 65%,
+                                #6ca780 65%,
                                 #a7a8b2 10%,
-                                #5a5c6a 65%,
+                                #6ca780 65%,
                                 #1a1c22 100%);
-    --selected-button: linear-gradient(180deg,
+    --reg-background: linear-gradient(50deg,
+                                #1a1c22 0%,
+                                #5a5c6a 45%,
+                                #a7a8b2 20%,
+                                #5a5c6a 45%,
+                                #1a1c22 100%);
+    --selected-age-button: linear-gradient(180deg,
                                     #1a1c22,
                                     #719db2 80%,
                                     #1a1c22 );
-    --selected-buttons: linear-gradient(180deg,
+    --selected-button: linear-gradient(180deg,
                                     #1a1c22,
                                     #d44949 80%,
                                     #1a1c22 );
@@ -96,7 +102,7 @@ body {
         -1px 0 0 white;
      }
 #sex-selector label:has(input:checked) {
-    background: var(--selected-button); 
+    background: var(--selected-age-button); 
     color: gainsboro; 
     text-shadow:
         1px 1px 0 black,
@@ -131,7 +137,7 @@ body {
 
 
 .pokemon-list-selector label:has(input[type="radio"]:checked) {
-  background: var(--selected-buttons);
+  background: var(--selected-button);
   color: gainsboro;
   text-shadow:
     1px 1px 0 black,
@@ -170,6 +176,7 @@ h2 {
     border: var(--reg-settings-border);
     border-radius: 7px 0px 0px 7px;
     border-right: 0px;
+    background: var(--reg-background);
 }
 
 .reg-form-r-column {
@@ -201,7 +208,7 @@ h2 {
 }
 
 .player-name, #enemy-name {
-    font-size: 55px;
+    font-size: 40px;
     text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
