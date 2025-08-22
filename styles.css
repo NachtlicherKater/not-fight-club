@@ -21,8 +21,16 @@
                                     #1a1c22,
                                     #d44949 80%,
                                     #1a1c22 );
+    --background-main-buttons: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #98bfd6 80%,
+                                    #1a1c22 );
+    --active-buttons: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #b1b271 80%,
+                                    #1a1c22 );
     --main-border: 2px solid #1a1c22;
-    --reg-settings-border: 3px solid #5a5c6a;
+    --reg-settings-border: 3px solid #42434b;
 }
 
 * {
@@ -35,8 +43,12 @@
 
 body {
     width: 100%;
-    height: 100%;
-    background: var(--background);     
+    height: 100vh;
+    background: url(./assets/images/background.png);
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    
 }
 
 .invert {
@@ -48,13 +60,17 @@ body {
 .registration-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 250px 1fr;
     justify-content: center;
     padding: 20px 350px;
     position: fixed;
     z-index: 30;
     width: 100%;
     height: 100dvh;
-    background: var(--background);
+    background: url(./assets/images/reg-background.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #ask-about-nick, #ask-about-nick input, #sex-selector, #sex-selector label {
@@ -168,7 +184,6 @@ h2 {
     font-size: 90px; 
     text-align: center; 
     padding: 10px;
-    margin-bottom: -100px;
 }
 
 .reg-form-l-column {
@@ -228,9 +243,34 @@ h2 {
     position: relative;
     width: 1500px;
     height: 50px;
-    border-radius: 10px;
+    border: var(--reg-settings-border);
+    border-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
     margin: 0px auto;
     z-index: 20;
+    background: var(--background-main-buttons);
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-buttons button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background: transparent;
+    margin: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 25%;
+}
+
+.main-buttons button:hover {
+    background: var(--selected-age-button);
+}
+
+.main-buttons button:active {
+   background: var(--active-buttons); 
 }
 
 
@@ -239,11 +279,34 @@ h2 {
     position: relative;
     width: 1500px;
     height: 900px;
-    background: grey;
-    border: var(--main-border);
+    background: transparent;
+    border: var(--reg-settings-border);
+    border-radius: 0px 0px 10px 10px;
     margin: 0 auto;
 }
+h1 {
+    text-align: center;
+    font-size: 100px;
+    padding: 30px;
+}
 
+.main-page-picture img {
+    position: relative;
+    top: 0px;
+    left: calc(100% - 360px);
+    width: 200px;
+    filter: grayscale(80%);
+}
+
+#stats {
+    position: absolute;
+    top: 380px;
+    left: calc((100% - 900px) / 2 );
+    width: 900px;
+    height: 500px;
+    border-radius: 10px;
+    background: rgba(250, 250, 250, 0.8);
+}
 
 /*--BATTLE SECTION--*/
 .battle-page {
@@ -261,32 +324,32 @@ h2 {
     margin: 0px;
     padding: 10px;
     background: var(--character-card);
-    border-radius: 5px 0px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
 }
 
 .enemy-blank {
     margin: 0px;
     padding: 10px;
     background: var(--character-card);
-    border-radius: 0px 5px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
 }
 
 .user-field {
     grid-area: 1 / 1 / 3 / 2;
-    border: var(--outline-border);
-    border-radius: 10px 0px 0px 10px;
+    border: var(--reg-settings-border);
+    border-radius: 0px 0px 0px 10px;
 }
 
 .enemy-field {
     grid-area: 1 / 4 / 3 / 5;
-    border: var(--outline-border);
-    border-radius: 0px 10px 10px 0px;
+    border: var(--reg-settings-border);
+    border-radius: 0px 0px 10px 0px;
 }
 
 .controls {
     grid-area: 1 / 2 / 2 / 4;
-    border-top: var(--outline-border);
-    border-bottom: var(--outline-border);
+    border-top: var(--reg-settings-border);
+    border-bottom: var(--reg-settings-border);
 }
 
 .action-buttons {
@@ -337,10 +400,10 @@ h2 {
 }
 
 .attack-buttons *{
-    cursor: url(./assets/images/cursor/sword.png), pointer;
+    cursor: url(./assets/images/icons/cursor-sword.png), pointer;
 }
 .defend-buttons *{
-    cursor: url(./assets/images/cursor/shield.png), pointer;
+    cursor: url(./assets/images/icons/cursor-shield.png), pointer;
 }
 
 .attack-buttons label input[type="checkbox"]:checked+span {
@@ -366,7 +429,7 @@ h2 {
 
 .battle-logs {
     grid-area: 2 / 2 / 3 / 4;
-    border-bottom: var(--outline-border);
+    border-bottom: var(--reg-settings-border);
 }
 
 
