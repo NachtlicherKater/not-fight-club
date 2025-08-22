@@ -104,6 +104,10 @@ settingsButton.addEventListener("click", () => {
 });
 
 closeSettingsButton.addEventListener("click", () => {
+  const selectedSex = document.querySelector('input[name="sex"]:checked').value;
+  localStorage.setItem("sex", selectedSex);
+  const selectedPokemon = document.querySelector('input[name="selected-pokemon"]:checked').value;
+  localStorage.setItem("selectedPokemon", selectedPokemon);
   settingsPage.classList.remove("show-settings");
   settingsPage.classList.add("hide-settings");
 });
