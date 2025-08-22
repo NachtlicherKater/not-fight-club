@@ -36,10 +36,13 @@
         <button id="main-page-button">Главная страница</button>
         <button id="battle-button">Битва</button>
         <button id="settings-button">Настройки</button>
-        <h1>Pokemon Fight</h1>
     </div>
     <div class="main-page show">
-sdsdsada
+        <h1>Pokemon Fight</h1>
+        <div class="player-pokemon-picture main-page-picture invert">
+            <img src="./assets/images/characters/bulbasaur/static.png" alt="default picture of pokemon">
+        </div>
+        <div id="stats">Тут будет статистика</div>
     </div>
     <div class="battle-page hide">
         <div class="user-field">
@@ -64,7 +67,7 @@ sdsdsada
                     <p>Health: 100</p>
                     <p>Mana: 50</p>
                 </div>
-                <div class="enemy-pokemon-picture"><img src="./assets/images/characters/marowak/static.png" alt="default picture of pokemon"></div> <!--delete it later-->
+                <div class="enemy-pokemon-picture"><img src="./assets/images/characters/bulbasaur/static.png" alt="default picture of pokemon"></div>
                 <div class="ememy-stats">
                     <p>Level: 1</p>
                     <p>Experience: 0/100</p>
@@ -83,9 +86,6 @@ sdsdsada
                     <label><input type="checkbox" value="atk-legs"><span>Совершить удар по ногам</span></label>
                 </fieldset>
                 <div class="central-thing">
-                    <div class="make a turn">
-                        <button><span>Сделать ход!</span></button>
-                    </div>
                     <div class="hitting-indicator"><img src="./assets/images/hitting-indicator/hitting-indicator.png" alt="hitting-indicator"></div>
                 </div>
                 <fieldset class="defend-buttons">
@@ -97,10 +97,11 @@ sdsdsada
                     <label><input type="checkbox" value="def-legs"><span>Защититься от удара по ногам</span></label>
                 </fieldset>
             </div>
-            
         </div>
         <div class="battle-logs">
-
+            <div class="make a turn">
+            <button><span>Сделать ход!</span></button>
+            </div>
         </div>
     </div>
     <div class="settings-page hide-settings">
