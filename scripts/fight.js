@@ -1,5 +1,8 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
 
+const nickname = localStorage.getItem("nickname");
+const sex = localStorage.getItem("sex")
+const logsList = document.getElementById("logs-list");
 
 const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-legs"];
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
@@ -33,16 +36,18 @@ function getRandomZones(array, count) {
 
 function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, criticalHit) {
   let totalDamage = 0;
+  let wasCrit = false; // for logging
 
   attackZones.flat().forEach(zone => { //.flat to prevent inner arrays (arrays in arrays [atk-head, [atk-groin], atk-chest], etc)
     if (!defenseZones.includes("def-" + zone.split("-")[1])) { // split on 2 elements in array and takes second [1] atk-head = head
         //if true - deal dmg
       const isCrit = Math.random() * 100 < criticaHitChance;
+      if (isCrit) wasCrit = true;
       totalDamage += isCrit ? damage * criticalHit : damage;
     }
   });
 
-  return totalDamage;
+  return {totalDamage, wasCrit};
 }
 
 
@@ -122,7 +127,7 @@ const botDefenses = getRandomZones(defendZones, 2);
   console.log(`Бот (${botPokemon.name}) защищает зоны:`, botDefenses);
 //debug
 
-  const playerDamage = calculateDamage(
+  const {totalDamage: playerDamage, wasCrit: playerCrit} = calculateDamage(
     [atkButtons], // cuz it can be only 1 atk zone, but func is waiting for array
     botDefenses,
     playerPokemon.damage,
@@ -130,7 +135,7 @@ const botDefenses = getRandomZones(defendZones, 2);
     playerPokemon.criticalHitDamage
   );
 
-  const botDamage = calculateDamage(
+  const {totalDamage: botDamage, wasCrit: botCrit} = calculateDamage(
     botAttacks,
     defButtons,
     botPokemon.damage,
@@ -143,7 +148,6 @@ const botDefenses = getRandomZones(defendZones, 2);
 
   console.log(`Бот (${botPokemon.name}) здоровье: ${botPokemon.health}`);
   console.log(`Игрок (${playerPokemon.name}) здоровье: ${playerPokemon.health}`);
-
 
 
 
@@ -167,11 +171,68 @@ const botDefenses = getRandomZones(defendZones, 2);
     }, () => {
       console.log("Игрок выбрал 'Нет'. Бой остановлен.");
     });
-  } else {
-    alert(`Ход завершён!
-            Ваш урон: ${playerDamage}
-            Урон бота: ${botDamage}
-            Ваше здоровье: ${playerPokemon.health}
-            Здоровье бота: ${botPokemon.health}`);
+  } 
+
+////// LOGS /////
+function zonesToText(zones, phrases) {
+  const arr = Array.isArray(zones) ? zones : [zones]; //checking if it all arrays
+  return arr.map(a => phrases[a] || a).join(" и ");
+}
+    const zones = {
+    "atk-head": "головы",
+    "atk-chest": "груди",
+    "atk-torso": "живота",
+    "atk-groin": "паха",
+    "atk-legs": "ног",
+
+    "def-head": "голову",
+    "def-chest": "грудь",
+    "def-torso": "живот",
+    "def-groin": "пах",
+    "def-legs": "ноги",
+};
+
+
+
+if(sex === "male") {
+    
+    let damageDealtByPlayer = "";
+    playerDamage > 0? damageDealtByPlayer = `и нанёс ${playerDamage} единиц урона.` : damageDealtByPlayer = `но ${botPokemon.name} заблокировал ${zonesToText(botDefenses, zones)}.`;
+    let damageDealtByBot = "";
+    botDamage > 0? damageDealtByBot = `и нанёс ${botDamage} единиц урона.` : damageDealtByBot = `но не пробил твой блок.`;
+    let critDamageByPlayer = "";
+    playerCrit == true? critDamageByPlayer =`совершил КРИТИЧЕСКИЙ УДАР в район` : critDamageByPlayer=`ударил в район`;
+    let critDamageByBot = "";
+    botCrit == true? critDamageByBot =`совершил КРИТИЧЕСКИЙ УДАР в район` : critDamageByBot=`ударил в район`;
+
+
+    addLog(`${nickname} ${critDamageByPlayer} ${zonesToText(atkButtons, zones)}, ${damageDealtByPlayer}`);
+    addLog(`${botPokemon.name} ${critDamageByBot} ${zonesToText(botAttacks, zones)}, ${damageDealtByBot}`);
   }
+else if (sex === "female") {
+        
+    let damageDealtByPlayer = "";
+    playerDamage > 0? damageDealtByPlayer = `и нанесла ${playerDamage} единиц урона.` : damageDealtByPlayer = `но ${botPokemon.name} заблокировал ${zonesToText(botDefenses, zones)}.`;
+    let damageDealtByBot = "";
+    botDamage > 0? damageDealtByBot = `и нанёс ${botDamage} единиц урона.` : damageDealtByBot = `но не пробил твой блок.`;
+    let critDamageByPlayer = "";
+    playerCrit == true? critDamageByPlayer =`совершила КРИТИЧЕСКИЙ УДАР в район` : critDamageByPlayer=`ударила в район`;
+    let critDamageByBot = "";
+    botCrit == true? critDamageByBot =`совершил КРИТИЧЕСКИЙ УДАР в район` : critDamageByBot=`ударил в район`;
+
+
+    addLog(`${nickname} ${critDamageByPlayer} ${zonesToText(atkButtons, zones)}, ${damageDealtByPlayer}`);
+    addLog(`${botPokemon.name} ${critDamageByBot} ${zonesToText(botAttacks, zones)}, ${damageDealtByBot}`);
+  }
+
+////// LOGS /////
 });
+
+function addLog(message) {
+  const li = document.createElement("li"); // create new li
+  li.textContent = message;                // write text
+  li.style.color = "white";          // style
+  logsList.appendChild(li);                // add to ul
+  logsList.scrollTop = logsList.scrollHeight; // автопрокрутка вниз
+}
+
