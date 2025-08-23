@@ -1,6 +1,5 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
 
-const nickname = localStorage.getItem("nickname");
 const sex = localStorage.getItem("sex")
 const logsList = document.getElementById("logs-list");
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
@@ -13,7 +12,7 @@ const visibleEnemyLvl = document.querySelector('#enemy-lvl');
 const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-legs"];
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
 
-const playerselectedPokemon = localStorage.getItem("selectedPokemon");
+let playerselectedPokemon = localStorage.getItem("selectedPokemon");
 if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
   alert("ОШИБКА! Выберите своего покемона в настройках!");
 }
@@ -67,13 +66,13 @@ function chooseBot() {
 }
 
 
-function showContinueDialog(onYes, onNo) {
+function showContinueDialog(onYes, onNo, winner) {
   const resultWindow = document.createElement("div");
   resultWindow.className = "game-result-dialog";
   resultWindow.innerHTML = `
                         <div class="dialog-box">
-                        <p>Не повезло..</p>
-                        <p>Попробовать снова?</p>
+                        <p>Победил ${winner}!</p>
+                        <p>Продолжить?</p>
                         <button id="continue-yes">Да</button>
                         <button id="continue-no">Нет</button>
                         </div>
@@ -83,11 +82,11 @@ function showContinueDialog(onYes, onNo) {
 
   document.getElementById("continue-yes").onclick = () => {
     resultWindow.remove();
-    onYes();
+    onYes(winner);
   };
   document.getElementById("continue-no").onclick = () => {
     resultWindow.remove();
-    onNo();
+    onNo(winner);
   };
 }
 
@@ -106,6 +105,8 @@ function getSelectedZones() {
   return { atkButtons, defButtons };
 }
 
+let nickname = "";
+
 // Listeners
 document.getElementById("fight-button").addEventListener("click", () => {
   const { atkButtons, defButtons } = getSelectedZones();
@@ -120,7 +121,11 @@ document.getElementById("fight-button").addEventListener("click", () => {
   }
 
   chooseBot();
-
+  nickname = localStorage.getItem("nickname")
+  playerselectedPokemon = localStorage.getItem("selectedPokemon");
+  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
+    alert("ОШИБКА! Выберите своего покемона в настройках!");
+  }
   visiblePlayerLvl.textContent = playerPokemon.lvl;
   visibleEnemyName.textContent = botPokemon.name;
   visibleEnemyLvl.textContent = botPokemon.lvl;
@@ -169,22 +174,20 @@ const botDefenses = getRandomZones(defendZones, 2);
   
 
   if (playerPokemon.health <= 0 || botPokemon.health <= 0) {
-    const winner = playerPokemon.health > 0 ? playerPokemon.name : botPokemon.name;
-    alert(`Бой завершён! Победитель: ${winner}`);
-
+    const winner = playerPokemon.health > 0 ? nickname : botPokemon.name;
 
     showContinueDialog(() => {
-      if (winner === playerPokemon.name) {
+      if (winner === nickname) {
         botPokemon = null;
         chooseBot();
       } else {
         playerPokemon= { ...pokemons[playerselectedPokemon] };
         botPokemon = null;
         chooseBot();
-      }
-    }, () => {
-      console.log("Игрок выбрал 'Нет'. Бой остановлен.");
-    });
+      } 
+    }, (winner) => {
+    console.log(`Игрок выбрал 'Нет'. Бой остановлен. Победитель: ${winner}`);
+  }, winner);
   } 
 
 ////// LOGS /////
