@@ -35,6 +35,12 @@ if (isRegistered === "true") {
 if (!savedNick) {
   localStorage.setItem("nickname", "Игрок"); // if nothing was inputed
 }
+if (!localStorage.getItem("wins")) { // just adding stats
+  localStorage.setItem("wins", "0");
+}
+if (!localStorage.getItem("loses")) {
+  localStorage.setItem("loses", "0");
+}
 if (savedNick) {        
   playerName.forEach(element => { // to all names in array
   element.textContent = savedNick;

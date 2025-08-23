@@ -2,10 +2,10 @@ export const pokemons = {
   blastoise: {
     name: "Бластойз",
     health: 300,
-    damage: 20,
-    hit: 1,
-    criticalHit: 15,         
-    criticalHitDamage: 2.0,   
+    damage: 20,               
+    hit: 1,                   //count of hits 
+    criticalHitChance: 15,          
+    criticalHitDamage: 2.0,   //crit multiplier
     lvl: 3
   },
 
