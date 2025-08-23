@@ -72,7 +72,8 @@ function showContinueDialog(onYes, onNo) {
   resultWindow.className = "game-result-dialog";
   resultWindow.innerHTML = `
                         <div class="dialog-box">
-                        <p>Продолжить?</p>
+                        <p>Не повезло..</p>
+                        <p>Попробовать снова?</p>
                         <button id="continue-yes">Да</button>
                         <button id="continue-no">Нет</button>
                         </div>
@@ -204,7 +205,6 @@ function zonesToText(zones, phrases) {
     "def-groin": "пах",
     "def-legs": "ноги",
 };
-
 
 
 if(sex === "male") {
