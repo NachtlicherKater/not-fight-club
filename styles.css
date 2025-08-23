@@ -432,6 +432,48 @@ h1 {
     border-bottom: var(--reg-settings-border);
 }
 
+#fight-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding: 10px;
+}
+
+#fight-button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background: var(--background-main-buttons);
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 50%;
+}
+
+#fight-button:hover {
+    background: var(--selected-age-button);
+}
+
+#fight-button:active {
+    background: var(--active-buttons);
+}
+
+#battle-logs-container {
+    border-top: var(--reg-settings-border);
+    background: transparent;
+    padding: 0px 5px 10px 5px;
+}
+
+#logs-list {
+    height: 330px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+#logs-list::-webkit-scrollbar {
+    display: none; /*scrollbar for google-engine browsers*/
+}
+
 
 /*--SETTINGS SECTION--*/
 .settings-page {
@@ -466,3 +508,35 @@ h1 {
     border-radius: 7px 0px 0px 7px;
     border-right: 0px;
 }
+
+/*--ANIMATIONS FOR FIGHT--*/
+
+@keyframes player-attack {
+    0% {transform: translateX(0);} 50% {transform: translateX(-60px);} 100% {transform: translateX(0);}
+};
+@keyframes player-blocked {
+    0% {transform: translateX(0);} 50% {transform: translateX(30px);} 100% {transform: translateX(0);}
+};
+@keyframes player-taken-damage {
+    0% {transform: translateX(0);} 50% {transform: translateX(70px);} 100% {transform: translateX(0);}
+};
+
+.player-attack {animation: player-attack .7s forwards};
+.player-blocked {animation: player-blocked .7s forwards};
+.player-taken-damage {animation: player-taken-damage 1.7s forwards};
+
+@keyframes enemy-attack {
+    0% {transform: translateX(0);} 50% {transform: translateX(60px);} 100% {transform: translateX(0);}
+};
+
+@keyframes enemy-blocked {
+    0% {transform: translateX(0);} 50% {transform: translateX(-30px);} 100% {transform: translateX(0);}
+};
+
+@keyframes enemy-taken-damage {
+    0% {transform: translateX(0);} 50% {transform: translateX(-70px);} 100% {transform: translateX(0);}
+};
+
+.enemy-attack {animation: enemy-attack .7s};
+.enemy-blocked {animation: enemy-blocked .7s};
+.enemy-taken-damage {animation: enemy-taken-damage 1.7s};
