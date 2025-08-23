@@ -2,6 +2,7 @@ import { pokemons } from "./characters-config.js"; // list of pokemons
 
 const defaultPokemon = "bulbasaur";
 const sex = localStorage.getItem("sex")
+const battleButton = document.getElementById("fight-button");
 const logsList = document.getElementById("logs-list");
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
 const visiblePlayerHealth = document.querySelector('#player-health');
@@ -22,7 +23,9 @@ let botPokemonName = null; //just a name
 let botPokemon = null;
 
 
-
+let isBattleStarted = false;
+let winCounter = localStorage.getItem("wins");
+let loseCounter = localStorage.getItem("loses");
 // LOGIC
 
 function getRandomZones(array, count) {
@@ -39,7 +42,7 @@ function getRandomZones(array, count) {
 }
 
 
-function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, criticalHit) {
+function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, criticalHitChance) {
   let totalDamage = 0;
   let wasCrit = false; // for logging
 
@@ -48,7 +51,7 @@ function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, cr
         //if true - deal dmg
       const isCrit = Math.random() * 100 < criticaHitChance;
       if (isCrit) wasCrit = true;
-      totalDamage += isCrit ? damage * criticalHit : damage;
+      totalDamage += isCrit ? damage * criticalHitChance : damage;
     }
   });
 
@@ -108,7 +111,7 @@ function getSelectedZones() {
 let nickname = "";
 
 // Listeners
-document.getElementById("fight-button").addEventListener("click", () => {
+battleButton.addEventListener("click", () => {
   const { atkButtons, defButtons } = getSelectedZones();
 
   if (!atkButtons) {
@@ -133,6 +136,8 @@ document.getElementById("fight-button").addEventListener("click", () => {
   enemyPictureContainer.forEach(container => {
     container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${savedPokemon} !!!">`;
   });
+  isBattleStarted = true;
+  battleButton.textContent = "Сделать ход!";
 
 
 const attackCount = botPokemon.hit; 
@@ -151,7 +156,7 @@ const botDefenses = getRandomZones(defendZones, 2);
     [atkButtons], // cuz it can be only 1 atk zone, but func is waiting for array
     botDefenses,
     playerPokemon.damage,
-    playerPokemon.criticalHit,
+    playerPokemon.criticalHitChance,
     playerPokemon.criticalHitDamage
   );
 
@@ -159,7 +164,7 @@ const botDefenses = getRandomZones(defendZones, 2);
     botAttacks,
     defButtons,
     botPokemon.damage,
-    botPokemon.criticalHit,
+    botPokemon.criticalHitChance,
     botPokemon.criticalHitDamage
   );
 
@@ -176,6 +181,16 @@ const botDefenses = getRandomZones(defendZones, 2);
 
   if (playerPokemon.health <= 0 || botPokemon.health <= 0) {
     const winner = playerPokemon.health > 0 ? nickname : botPokemon.name;
+    
+    if (winner === nickname) {
+      winCounter++;
+      localStorage.setItem("wins", winCounter);
+    } else {
+      loseCounter++;
+      localStorage.setItem("loses", loseCounter);
+    }
+
+    battleButton.textContent = "Начать бой!";
 
     showContinueDialog(() => {
       if (winner === nickname) {
@@ -186,9 +201,7 @@ const botDefenses = getRandomZones(defendZones, 2);
         botPokemon = null;
         chooseBot();
       } 
-    }, (winner) => {
-    console.log(`Игрок выбрал 'Нет'. Бой остановлен. Победитель: ${winner}`);
-  }, winner);
+    }, (winner) => {}, winner);
   } 
 
 ////// LOGS /////
