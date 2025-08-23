@@ -3,6 +3,12 @@ import { pokemons } from "./characters-config.js"; // list of pokemons
 const nickname = localStorage.getItem("nickname");
 const sex = localStorage.getItem("sex")
 const logsList = document.getElementById("logs-list");
+const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
+const visiblePlayerHealth = document.querySelector('#player-health');
+const visiblePlayerLvl = document.querySelector('#player-lvl');
+const visibleEnemyName = document.querySelector('#enemy-name');
+const visibleEnemyHealth = document.querySelector('#enemy-health');
+const visibleEnemyLvl = document.querySelector('#enemy-lvl');
 
 const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-legs"];
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
@@ -66,7 +72,8 @@ function showContinueDialog(onYes, onNo) {
   resultWindow.className = "game-result-dialog";
   resultWindow.innerHTML = `
                         <div class="dialog-box">
-                        <p>Продолжить?</p>
+                        <p>Не повезло..</p>
+                        <p>Попробовать снова?</p>
                         <button id="continue-yes">Да</button>
                         <button id="continue-no">Нет</button>
                         </div>
@@ -114,6 +121,13 @@ document.getElementById("fight-button").addEventListener("click", () => {
 
   chooseBot();
 
+  visiblePlayerLvl.textContent = playerPokemon.lvl;
+  visibleEnemyName.textContent = botPokemon.name;
+  visibleEnemyLvl.textContent = botPokemon.lvl;
+  enemyPictureContainer.forEach(container => {
+    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${savedPokemon} !!!">`;
+  });
+
 
 const attackCount = botPokemon.hit; 
 // attackCount is one or two hits from pokemons object
@@ -145,15 +159,15 @@ const botDefenses = getRandomZones(defendZones, 2);
 
   botPokemon.health -= playerDamage;
   playerPokemon.health -= botDamage;
+    botPokemon.health = Math.max(botPokemon.health, 0);
+    playerPokemon.health = Math.max(playerPokemon.health, 0);
 
   console.log(`Бот (${botPokemon.name}) здоровье: ${botPokemon.health}`);
   console.log(`Игрок (${playerPokemon.name}) здоровье: ${playerPokemon.health}`);
+  visiblePlayerHealth.textContent = playerPokemon.health;
+  visibleEnemyHealth.textContent = botPokemon.health;
+  
 
-
-
-
-
- //////////
   if (playerPokemon.health <= 0 || botPokemon.health <= 0) {
     const winner = playerPokemon.health > 0 ? playerPokemon.name : botPokemon.name;
     alert(`Бой завершён! Победитель: ${winner}`);
@@ -191,7 +205,6 @@ function zonesToText(zones, phrases) {
     "def-groin": "пах",
     "def-legs": "ноги",
 };
-
 
 
 if(sex === "male") {

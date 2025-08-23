@@ -540,3 +540,55 @@ h1 {
 .enemy-attack {animation: enemy-attack .7s};
 .enemy-blocked {animation: enemy-blocked .7s};
 .enemy-taken-damage {animation: enemy-taken-damage 1.7s};
+
+/*--GAME RESULT WINDOW--*/
+.game-result-dialog {
+    position: fixed;
+}
+
+.dialog-box {
+    position: fixed;
+    z-index: 10;
+    top: calc((100vh - 60%) / 2);
+    left: calc((100vw - 45%) / 2);
+    width: 45%;
+    height: 60%;
+    border-radius: 20px;
+    background: rgba(20, 20, 20, 0.97);
+    color: rgb(211, 211, 211);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px;
+}
+
+.dialog-box p {
+    font-size: 90px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.dialog-box p:nth-of-type(2) {
+    font-size: 50px;
+    margin-bottom: 40px;
+}
+
+.dialog-box button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background: var(--background-main-buttons);
+    margin: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 40%;
+}
+
+.dialog-box button:hover {
+    background: var(--selected-age-button);
+}
+
+.dialog-box button:active {
+    background: var(--active-buttons);
+}
