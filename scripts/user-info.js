@@ -24,6 +24,7 @@ const savedNick = localStorage.getItem("nickname");
 const savedSex = localStorage.getItem("sex");
 const savedPokemon = localStorage.getItem("selectedPokemon");
 const isRegistered = localStorage.getItem("isRegistered");
+const selectedPokemon = localStorage.getItem("selectedPokemon");
 
 if (isRegistered === "true") {
   registrationWindow.classList.add("hide"); //hide reg form
@@ -31,6 +32,9 @@ if (isRegistered === "true") {
   settingsPage.classList.add("hide-settings"); 
   if (settingsOverview) settingsPage.appendChild(settingsOverview); // move 'em to settings
   if (settingsPlayer) settingsPage.appendChild(settingsPlayer); 
+}
+if (!selectedPokemon){
+  localStorage.setItem("selectedPokemon", "bulbasaur"); //default pokemon
 }
 if (!savedNick) {
   localStorage.setItem("nickname", "Игрок"); // if nothing was inputed

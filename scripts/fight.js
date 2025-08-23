@@ -1,10 +1,13 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
 
 const defaultPokemon = "bulbasaur";
-const sex = localStorage.getItem("sex")
+const sex = localStorage.getItem("sex");
 const battleButton = document.getElementById("fight-button");
 const logsList = document.getElementById("logs-list");
+const playerPictureContainer = document.querySelectorAll('.player-pokemon-picture');
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
+const winStats = document.querySelector('#win-stats');
+const loseStats = document.querySelector('#lose-stats');
 const visiblePlayerHealth = document.querySelector('#player-health');
 const visiblePlayerLvl = document.querySelector('#player-lvl');
 const visibleEnemyName = document.querySelector('#enemy-name');
@@ -15,9 +18,7 @@ const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-leg
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
 
 let playerselectedPokemon = localStorage.getItem("selectedPokemon");
-if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-  playerselectedPokemon = localStorage.setItem("selectedPokemon", defaultPokemon)
-}
+
 let playerPokemon = { ...pokemons[playerselectedPokemon] }; // do a copy by selected pokemon
 let botPokemonName = null; //just a name
 let botPokemon = null;
@@ -26,6 +27,8 @@ let botPokemon = null;
 let isBattleStarted = false;
 let winCounter = localStorage.getItem("wins");
 let loseCounter = localStorage.getItem("loses");
+winStats.textContent = winCounter;
+loseStats.textContent = loseCounter;
 // LOGIC
 
 function getRandomZones(array, count) {
@@ -123,20 +126,18 @@ battleButton.addEventListener("click", () => {
     return;
   }
 
-  chooseBot();
-  nickname = localStorage.getItem("nickname");
-  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-    playerselectedPokemon = localStorage.setItem("selectedPokemon", defaultPokemon)
-    alert("❌ОШИБКА! Был выбран несуществующий покемон!❌\n\nПокемон сменился на дефолтного - Бульбазавр");
-  }
+  chooseBot(); 
+  //update on button
   playerselectedPokemon = localStorage.getItem("selectedPokemon");
-  visiblePlayerLvl.textContent = playerPokemon.lvl;
-  visibleEnemyName.textContent = botPokemon.name;
-  visibleEnemyLvl.textContent = botPokemon.lvl;
-  enemyPictureContainer.forEach(container => {
-    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${savedPokemon} !!!">`;
-  });
-  isBattleStarted = true;
+  nickname = localStorage.getItem("nickname");
+    if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
+      localStorage.setItem("selectedPokemon", defaultPokemon); 
+      playerselectedPokemon = defaultPokemon; 
+      alert("❌ОШИБКА! Был выбран несуществующий покемон!❌\n\nПокемон сменился на дефолтного - Бульбазавр");
+      playerPokemon = { ...pokemons[playerselectedPokemon] };
+      updateStats(); 
+    }
+  updateStats();
   battleButton.textContent = "Сделать ход!";
 
 
@@ -170,7 +171,7 @@ const botDefenses = getRandomZones(defendZones, 2);
 
   botPokemon.health -= playerDamage;
   playerPokemon.health -= botDamage;
-    botPokemon.health = Math.max(botPokemon.health, 0);
+    botPokemon.health = Math.max(botPokemon.health, 0); // max - pokemon hp | min - 0 hp
     playerPokemon.health = Math.max(playerPokemon.health, 0);
 
   console.log(`Бот (${botPokemon.name}) здоровье: ${botPokemon.health}`);
@@ -191,6 +192,7 @@ const botDefenses = getRandomZones(defendZones, 2);
     }
 
     battleButton.textContent = "Начать бой!";
+    updateStats();
 
     showContinueDialog(() => {
       if (winner === nickname) {
@@ -222,7 +224,6 @@ function zonesToText(zones, phrases) {
     "def-groin": "пах",
     "def-legs": "ноги",
 };
-
 
 if(sex === "male") {
     
@@ -266,3 +267,15 @@ function addLog(message) {
   logsList.scrollTop = logsList.scrollHeight; // автопрокрутка вниз
 }
 
+function updateStats() {
+  visiblePlayerLvl.textContent = playerPokemon.lvl;
+  visibleEnemyName.textContent = botPokemon.name;
+  visibleEnemyLvl.textContent = botPokemon.lvl;
+  playerPictureContainer.forEach(container => {
+    container.innerHTML = `<img src="./assets/images/characters/${playerselectedPokemon}/static.png" alt="This is ${playerselectedPokemon} !!!">`;
+  });
+  enemyPictureContainer.forEach(container => {
+    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${savedPokemon} !!!">`;
+  });
+  isBattleStarted = true;
+}
