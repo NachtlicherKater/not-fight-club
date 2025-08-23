@@ -1,5 +1,6 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
 
+const defaultPokemon = "bulbasaur";
 const sex = localStorage.getItem("sex")
 const logsList = document.getElementById("logs-list");
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
@@ -14,9 +15,8 @@ const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-leg
 
 let playerselectedPokemon = localStorage.getItem("selectedPokemon");
 if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-  alert("ОШИБКА! Выберите своего покемона в настройках!");
+  playerselectedPokemon = localStorage.setItem("selectedPokemon", defaultPokemon)
 }
-
 let playerPokemon = { ...pokemons[playerselectedPokemon] }; // do a copy by selected pokemon
 let botPokemonName = null; //just a name
 let botPokemon = null;
@@ -121,11 +121,12 @@ document.getElementById("fight-button").addEventListener("click", () => {
   }
 
   chooseBot();
-  nickname = localStorage.getItem("nickname")
-  playerselectedPokemon = localStorage.getItem("selectedPokemon");
+  nickname = localStorage.getItem("nickname");
   if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-    alert("ОШИБКА! Выберите своего покемона в настройках!");
+    playerselectedPokemon = localStorage.setItem("selectedPokemon", defaultPokemon)
+    alert("❌ОШИБКА! Был выбран несуществующий покемон!❌\n\nПокемон сменился на дефолтного - Бульбазавр");
   }
+  playerselectedPokemon = localStorage.getItem("selectedPokemon");
   visiblePlayerLvl.textContent = playerPokemon.lvl;
   visibleEnemyName.textContent = botPokemon.name;
   visibleEnemyLvl.textContent = botPokemon.lvl;

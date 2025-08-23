@@ -32,6 +32,9 @@ if (isRegistered === "true") {
   if (settingsOverview) settingsPage.appendChild(settingsOverview); // move 'em to settings
   if (settingsPlayer) settingsPage.appendChild(settingsPlayer); 
 }
+if (!savedNick) {
+  localStorage.setItem("nickname", "Игрок"); // if nothing was inputed
+}
 if (savedNick) {        
   playerName.forEach(element => { // to all names in array
   element.textContent = savedNick;
