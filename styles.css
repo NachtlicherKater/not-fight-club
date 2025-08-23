@@ -1,0 +1,594 @@
+:root {
+    --outline-border: 4px solid #5a5c6a;
+    --character-card: radial-gradient(circle, #eeeae7 1%, #b6cfe4 50%, #92a0a1 100%);
+    --background: linear-gradient(180deg,
+                                #1a1c22 0%,
+                                #6ca780 65%,
+                                #a7a8b2 10%,
+                                #6ca780 65%,
+                                #1a1c22 100%);
+    --reg-background: linear-gradient(50deg,
+                                #1a1c22 0%,
+                                #5a5c6a 45%,
+                                #a7a8b2 20%,
+                                #5a5c6a 45%,
+                                #1a1c22 100%);
+    --selected-age-button: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #719db2 80%,
+                                    #1a1c22 );
+    --selected-button: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #d44949 80%,
+                                    #1a1c22 );
+    --background-main-buttons: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #98bfd6 80%,
+                                    #1a1c22 );
+    --active-buttons: linear-gradient(180deg,
+                                    #1a1c22,
+                                    #b1b271 80%,
+                                    #1a1c22 );
+    --main-border: 2px solid #1a1c22;
+    --reg-settings-border: 3px solid #42434b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    user-select: none;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background: url(./assets/images/background.webp);
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    
+}
+
+.invert {
+    transform: scaleX(-1);
+}
+
+
+/*--REGISTRATION SECTION--*/
+.registration-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 250px 1fr;
+    justify-content: center;
+    padding: 20px 350px;
+    position: fixed;
+    z-index: 30;
+    width: 100%;
+    height: 100dvh;
+    background: url(./assets/images/reg-background.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#ask-about-nick, #ask-about-nick input, #sex-selector, #sex-selector label {
+    font-size: 35px;
+}
+#ask-about-nick input {text-align: center; width: 80%; margin: 0 auto;}
+#ask-about-nick input::placeholder {
+    font-size: 30px; 
+    text-align: center;
+}
+#ask-about-nick, #sex-selector {
+    display: grid;
+    font-weight: bold;
+    row-gap: 10px;
+}
+
+#ask-about-nick {
+    grid-template-columns: 1fr;
+}
+
+#sex-selector {
+    column-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    grid-area: 1 / 1 / 2 / 3;
+}
+#sex-selector label:nth-of-type(1){grid-area: 2 / 1 / 3 / 2;}
+#sex-selector label:nth-of-type(2){grid-area: 2 / 2 / 3 / 2;}
+#sex-selector input {appearance: none;}
+
+#sex-selector label{
+    font-weight: bold; 
+    border: var(--main-border); 
+    border-radius: 5px; 
+    padding: 10px; 
+    cursor: pointer;
+    text-align: center;
+    text-shadow:
+        1px 1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white,
+        0 1px 0 white,
+        0 -1px 0 white,
+        1px 0 0 white,
+        -1px 0 0 white;
+     }
+#sex-selector label:has(input:checked) {
+    background: var(--selected-age-button); 
+    color: gainsboro; 
+    text-shadow:
+        1px 1px 0 black,
+        -1px 1px 0 black,
+        1px -1px 0 black,
+        -1px -1px 0 black,
+        0 1px 0 black,
+        0 -1px 0 black,
+        1px 0 0 black,
+        -1px 0 0 black;
+}
+
+.pokemon-list-selector {
+    list-style: none;
+}
+
+.pokemon-list-selector input[type="radio"] {
+    display: none;
+}
+
+.pokemon-list-selector label {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 25px;
+    font-style: italic;
+    padding: 10px;
+    cursor: pointer;
+    border: var(--main-border);
+    border-radius: 7px;
+ }
+
+
+.pokemon-list-selector label:has(input[type="radio"]:checked) {
+  background: var(--selected-button);
+  color: gainsboro;
+  text-shadow:
+    1px 1px 0 black,
+    -1px 1px 0 black,
+    1px -1px 0 black,
+    -1px -1px 0 black,
+    0 1px 0 black,
+    0 -1px 0 black,
+    1px 0 0 black,
+    -1px 0 0 black;
+}
+
+#save-name {
+    border: var(--main-border);
+    border-radius: 7px;
+    cursor: pointer;
+    background-color: #5a5c6a;
+    font-size: 30px;
+    width: 60%;
+    margin: 0 auto;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+#save-name:hover {background-color: #65cf61;}
+#save-name:active {background-color: #c8cf61;}
+h2 { 
+    grid-area: 1 / 1 / 2 / 3; 
+    font-size: 90px; 
+    text-align: center; 
+    padding: 10px;
+}
+
+.reg-form-l-column {
+    grid-area: 2 / 1 / 3 / 2;
+    border: var(--reg-settings-border);
+    border-radius: 7px 0px 0px 7px;
+    border-right: 0px;
+    background: var(--reg-background);
+}
+
+.reg-form-r-column {
+    grid-area: 2 / 2 / 3 / 3;
+    border: var(--reg-settings-border);
+    border-radius: 0px 7px 7px 0px;
+    align-items: center;
+    background: var(--character-card);
+}
+
+.reg-form-l-column, .reg-form-r-column {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.player-pokemon-picture, .enemy-pokemon-picture {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.player-pokemon-picture img, .enemy-pokemon-picture img {
+    max-width: 320px; 
+    max-height: 400px;
+}
+
+.player-name, #enemy-name {
+    font-size: 40px;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.show {animation: show 0s forwards;}
+@keyframes show {from {display: none;} to {display: grid;}}
+.hide {animation: hide 0s forwards;}
+@keyframes hide {from {display: block;} to {display: none;}}
+.show-settings {animation: show 0s forwards;}
+@keyframes show {from {z-index: -1; display: none;} to {z-index: 20; display: grid;}}
+.hide-settings {animation: hide 0s forwards;}
+@keyframes hide {from {z-index: 20; display: grid;} to {z-index: -1; display: none;}}
+
+
+/*--MAIN BUTTONS OF GAME--*/
+.main-buttons {
+    position: relative;
+    width: 1500px;
+    height: 50px;
+    border: var(--reg-settings-border);
+    border-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    margin: 0px auto;
+    z-index: 20;
+    background: var(--background-main-buttons);
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-buttons button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background: transparent;
+    margin: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 25%;
+}
+
+.main-buttons button:hover {
+    background: var(--selected-age-button);
+}
+
+.main-buttons button:active {
+   background: var(--active-buttons); 
+}
+
+
+/*--MAIN PAGE--*/
+.main-page {
+    position: relative;
+    width: 1500px;
+    height: 900px;
+    background: transparent;
+    border: var(--reg-settings-border);
+    border-radius: 0px 0px 10px 10px;
+    margin: 0 auto;
+}
+h1 {
+    text-align: center;
+    font-size: 100px;
+    padding: 30px;
+}
+
+.main-page-picture img {
+    position: relative;
+    top: 0px;
+    left: calc(100% - 360px);
+    width: 200px;
+    filter: grayscale(80%);
+}
+
+#stats {
+    position: absolute;
+    top: 380px;
+    left: calc((100% - 900px) / 2 );
+    width: 900px;
+    height: 500px;
+    border-radius: 10px;
+    background: rgba(250, 250, 250, 0.8);
+}
+
+/*--BATTLE SECTION--*/
+.battle-page {
+    width: 1500px;
+    height: 900px;
+    border-radius: 10px;
+    margin: 0px auto;
+    background: #1a1c22;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+#character-blank {
+    margin: 0px;
+    padding: 10px;
+    background: var(--character-card);
+    border-radius: 0px 0px 5px 5px;
+}
+
+.enemy-blank {
+    margin: 0px;
+    padding: 10px;
+    background: var(--character-card);
+    border-radius: 0px 0px 5px 5px;
+}
+
+.user-field {
+    grid-area: 1 / 1 / 3 / 2;
+    border: var(--reg-settings-border);
+    border-radius: 0px 0px 0px 10px;
+}
+
+.enemy-field {
+    grid-area: 1 / 4 / 3 / 5;
+    border: var(--reg-settings-border);
+    border-radius: 0px 0px 10px 0px;
+}
+
+.controls {
+    grid-area: 1 / 2 / 2 / 4;
+    border-top: var(--reg-settings-border);
+    border-bottom: var(--reg-settings-border);
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+}
+
+.action-buttons input {
+    display: inline-block;
+    display: flex;
+}
+
+.battle-page legend {
+    width: 100%;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #b6cfe4;
+}
+
+.battle-page fieldset {
+    border: none;
+    padding: 0;
+}
+
+.battle-page input[type="checkbox"] {
+  display: none;
+}
+
+.battle-page fieldset span {
+  display: block;
+  padding: 10px 20px;
+  border: 2px solid #444;
+  border-radius: 5px;
+  margin: 5px;
+  background: #f0f0f0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.attack-buttons, .defend-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.attack-buttons *{
+    cursor: url(./assets/images/icons/cursor-sword.png), pointer;
+}
+.defend-buttons *{
+    cursor: url(./assets/images/icons/cursor-shield.png), pointer;
+}
+
+.attack-buttons label input[type="checkbox"]:checked+span {
+    background: red;
+    color: white;
+}
+
+.defend-buttons label input[type="checkbox"]:checked+span {
+    background: blue;
+    color: white;
+}
+
+.hitting-indicator {
+    position: relative;
+}
+
+.hitting-indicator img {
+    height: 300px;
+    position: absolute;
+    margin: 0 calc((100% - 154.2px) / 2); 
+    top: 120px;
+}
+
+.battle-logs {
+    grid-area: 2 / 2 / 3 / 4;
+    border-bottom: var(--reg-settings-border);
+}
+
+#fight-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding: 10px;
+}
+
+#fight-button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background: var(--background-main-buttons);
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 50%;
+}
+
+#fight-button:hover {
+    background: var(--selected-age-button);
+}
+
+#fight-button:active {
+    background: var(--active-buttons);
+}
+
+#battle-logs-container {
+    border-top: var(--reg-settings-border);
+    background: transparent;
+    padding: 0px 5px 10px 5px;
+}
+
+#logs-list {
+    height: 330px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+#logs-list::-webkit-scrollbar {
+    display: none; /*scrollbar for google-engine browsers*/
+}
+
+
+/*--SETTINGS SECTION--*/
+.settings-page {
+    position: fixed;
+    top: 0;
+    left: calc((100% - 1500px) / 2);
+    z-index: 10; 
+    background: grey;
+    width: 1500px;
+    height: 100%;
+}
+
+#close-settings {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 50px;
+    width: 60px;
+    cursor: pointer;
+}
+
+.settings-page .reg-form-l-column {
+    grid-area: 1 / 1 / 2 / 2;
+    border: 3px solid #5a5c6a;
+    border-radius: 7px 0px 0px 7px;
+    border-right: 0px;
+}
+
+.settings-page .reg-form-r-column {
+    grid-area: 1 / 2 / 2 / 2;
+    border: 3px solid #5a5c6a;
+    border-radius: 7px 0px 0px 7px;
+    border-right: 0px;
+}
+
+/*--ANIMATIONS FOR FIGHT--*/
+
+@keyframes player-attack {
+    0% {transform: translateX(0);} 50% {transform: translateX(-60px);} 100% {transform: translateX(0);}
+};
+@keyframes player-blocked {
+    0% {transform: translateX(0);} 50% {transform: translateX(30px);} 100% {transform: translateX(0);}
+};
+@keyframes player-taken-damage {
+    0% {transform: translateX(0);} 50% {transform: translateX(70px);} 100% {transform: translateX(0);}
+};
+
+.player-attack {animation: player-attack .7s forwards};
+.player-blocked {animation: player-blocked .7s forwards};
+.player-taken-damage {animation: player-taken-damage 1.7s forwards};
+
+@keyframes enemy-attack {
+    0% {transform: translateX(0);} 50% {transform: translateX(60px);} 100% {transform: translateX(0);}
+};
+
+@keyframes enemy-blocked {
+    0% {transform: translateX(0);} 50% {transform: translateX(-30px);} 100% {transform: translateX(0);}
+};
+
+@keyframes enemy-taken-damage {
+    0% {transform: translateX(0);} 50% {transform: translateX(-70px);} 100% {transform: translateX(0);}
+};
+
+.enemy-attack {animation: enemy-attack .7s};
+.enemy-blocked {animation: enemy-blocked .7s};
+.enemy-taken-damage {animation: enemy-taken-damage 1.7s};
+
+/*--GAME RESULT WINDOW--*/
+.game-result-dialog {
+    position: fixed;
+}
+
+.dialog-box {
+    position: fixed;
+    z-index: 10;
+    top: calc((100vh - 60%) / 2);
+    left: calc((100vw - 45%) / 2);
+    width: 45%;
+    height: 60%;
+    border-radius: 20px;
+    background: rgba(20, 20, 20, 0.97);
+    color: rgb(211, 211, 211);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px;
+}
+
+.dialog-box p {
+    font-size: 90px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.dialog-box p:nth-of-type(2) {
+    font-size: 50px;
+    margin-bottom: 40px;
+}
+
+.dialog-box button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    background: var(--background-main-buttons);
+    margin: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 40%;
+}
+
+.dialog-box button:hover {
+    background: var(--selected-age-button);
+}
+
+.dialog-box button:active {
+    background: var(--active-buttons);
+}
