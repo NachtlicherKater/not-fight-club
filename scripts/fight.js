@@ -1,9 +1,10 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
-import {settingsButton, closeSettingsButton} from "./user-info.js"
+
 
 const defaultPokemon = "bulbasaur";
 const sex = localStorage.getItem("sex");
 const fightButton = document.getElementById("fight-button");
+const settingsButton = document.getElementById('settings-button');
 const logsList = document.getElementById("logs-list");
 const playerPictureContainer = document.querySelectorAll('.player-pokemon-picture');
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
@@ -281,7 +282,7 @@ else if (sex === "female") {
 ////// LOGS /////
 });
 
-function addLog(message) {
+ function addLog(message) {
   const li = document.createElement("li"); // create new li
   li.textContent = message;                // write text
   li.style.color = "white";          // style
@@ -289,10 +290,14 @@ function addLog(message) {
   logsList.scrollTop = logsList.scrollHeight; // автопрокрутка вниз
 }
 
-function updateStats() {
+ function updateStats() {
   if (!playerselectedPokemon || !pokemons[playerselectedPokemon]){
   localStorage.setItem("selectedPokemon", "bulbasaur");}
   nickname = localStorage.getItem("nickname") || "Игрок";
+  winCounter = localStorage.getItem("wins") || 0;
+  loseCounter = localStorage.getItem("loses") || 0;
+  winStats.textContent = winCounter;
+  loseStats.textContent = loseCounter;
   visiblePlayerHealth.textContent = playerPokemon.health;
   visiblePlayerLvl.textContent = playerPokemon.lvl;
   visibleEnemyName.textContent = botPokemon.name;
@@ -306,9 +311,9 @@ function updateStats() {
   });
 }
 
-function initPlayerPokemon() {
-  playerselectedPokemon = defaultPokemon;
+export function initPlayerPokemon() {
+  playerselectedPokemon = localStorage.getItem("selectedPokemon") || defaultPokemon;
   nickname = localStorage.getItem("nickname") || "Игрок";
   playerPokemon = { ...pokemons[playerselectedPokemon] };
-  playerPokemon.health = pokemons[playerselectedPokemon].health;  
+  playerPokemon.health = pokemons[playerselectedPokemon].health;
 }

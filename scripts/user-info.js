@@ -1,12 +1,15 @@
 import { pokemons } from "./characters-config.js";
+import { initPlayerPokemon } from './fight.js';
 
 const nickInput = document.getElementById('nick-input');
+const winCounter = document.querySelector('#win-stats');
+const loseCounter = document.querySelector('#lose-stats');
 //buttons
-export const confirmButton = document.getElementById('save-name');
+const confirmButton = document.getElementById('save-name');
 const mainPageButton = document.getElementById('main-page-button');
 const battleButton = document.getElementById('battle-button');
-export const settingsButton = document.getElementById('settings-button');
-export const closeSettingsButton = document.getElementById('close-settings')
+const settingsButton = document.getElementById('settings-button');
+const closeSettingsButton = document.getElementById('close-settings')
 //reg-form
 const playerName = document.querySelectorAll('.player-name');
 const avatarContainer = document.querySelectorAll('.player-pokemon-picture');
@@ -84,6 +87,9 @@ confirmButton.addEventListener("click", () => {
   settingsPage.classList.add("hide-settings");
   settingsPage.appendChild(settingsOverview); // move to settings
   settingsPage.appendChild(settingsPlayer);
+  winCounter.textContent = localStorage.getItem("wins") || 0;
+  loseCounter.textContent = localStorage.getItem("loses") || 0;
+  initPlayerPokemon();// update pokemon for battle function
 });
  });
 
@@ -107,6 +113,7 @@ mainPageButton.addEventListener("click", () => {
 });
 
 battleButton.addEventListener("click", () => {
+  initPlayerPokemon(); // update pokemon for battle function
   battlePage.classList.remove("hide");
   battlePage.classList.add("show");
   mainPage.classList.remove("show");
