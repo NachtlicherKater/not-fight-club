@@ -1,6 +1,5 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
 
-
 const defaultPokemon = "bulbasaur";
 const sex = localStorage.getItem("sex");
 const fightButton = document.getElementById("fight-button");
@@ -128,6 +127,8 @@ settingsButton.addEventListener("click", () => {
 // Listeners
 fightButton.addEventListener("click", () => {
   const { atkButtons, defButtons } = getSelectedZones();
+
+  const sex = localStorage.getItem("sex");
 
   if (!atkButtons) {
     alert("Выберите 1 зону атаки");
