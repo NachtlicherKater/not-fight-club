@@ -59,7 +59,7 @@
                 <div class="player-pokemon-picture invert"></div>
                 <div class="user-stats">
                     <p>Level: <span id="player-lvl">1</span></p>
-                    <p>Experience: 0/100</p>
+                    <p>Experience:  <span id="experience-user">0</span>/<span id="experience-user-max">100</span></p>
                 </div>
             </div>
         </div>
@@ -77,6 +77,12 @@
             </div>
         </div>
         <div class="controls">
+            <div id="unlock-pockemon-window" style="display: none;">
+                <p id="unlock-message"></p>
+                <img id="unlock-picture">
+                <p id="unlock-message-additional"></p>
+                <button id="unlock-pokemon-button">OK</button>
+            </div>
             <div class="action-buttons">
                 <fieldset class="attack-buttons">
                     <legend class="cursor-attack">Атака</legend>
