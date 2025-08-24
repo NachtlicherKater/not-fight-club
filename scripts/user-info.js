@@ -1,3 +1,5 @@
+import { pokemons } from "./characters-config.js";
+
 const nickInput = document.getElementById('nick-input');
 //buttons
 export const confirmButton = document.getElementById('save-name');
@@ -33,7 +35,7 @@ if (isRegistered === "true") {
   if (settingsOverview) settingsPage.appendChild(settingsOverview); // move 'em to settings
   if (settingsPlayer) settingsPage.appendChild(settingsPlayer); 
 }
-if (!selectedPokemon){
+if (!selectedPokemon || !pokemons[selectedPokemon]){
   localStorage.setItem("selectedPokemon", "bulbasaur"); //default pokemon
 }
 if (!savedNick) {
