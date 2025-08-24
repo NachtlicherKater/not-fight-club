@@ -14,6 +14,13 @@ const visiblePlayerLvl = document.querySelector('#player-lvl');
 const visibleEnemyName = document.querySelector('#enemy-name');
 const visibleEnemyHealth = document.querySelector('#enemy-health');
 const visibleEnemyLvl = document.querySelector('#enemy-lvl');
+//unlockable pokemons
+const unlockIvysaur = document.querySelector('input[value="ivysaur"]').parentElement;
+const unlockVenusaur = document.querySelector('input[value="venusaur"]').parentElement;
+const unlockWartortle = document.querySelector('input[value="wartortle"]').parentElement;
+const unlockBlastoise = document.querySelector('input[value="blastoise"]').parentElement;
+const unlockCharmaleon = document.querySelector('input[value="charmaleon"]').parentElement;
+const unlockCharizard = document.querySelector('input[value="charizard"]').parentElement;
 
 const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-legs"];
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
@@ -24,6 +31,12 @@ let playerPokemon = { ...pokemons[playerselectedPokemon] }; // do a copy by sele
 let botPokemonName = null; //just a name
 let botPokemon = null;
 
+unlockIvysaur.style.display = "flex";
+unlockVenusaur.style.display = "flex";
+unlockWartortle.style.display = "flex";
+unlockBlastoise.style.display = "flex";
+unlockCharmaleon.style.display = "flex";
+unlockCharizard.style.display = "flex";
 
 let winCounter = localStorage.getItem("wins");
 let loseCounter = localStorage.getItem("loses");
