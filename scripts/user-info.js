@@ -1,10 +1,10 @@
 const nickInput = document.getElementById('nick-input');
 //buttons
-const confirmButton = document.getElementById('save-name');
+export const confirmButton = document.getElementById('save-name');
 const mainPageButton = document.getElementById('main-page-button');
 const battleButton = document.getElementById('battle-button');
-const settingsButton = document.getElementById('settings-button');
-const closeSettingsButton = document.getElementById('close-settings')
+export const settingsButton = document.getElementById('settings-button');
+export const closeSettingsButton = document.getElementById('close-settings')
 //reg-form
 const playerName = document.querySelectorAll('.player-name');
 const avatarContainer = document.querySelectorAll('.player-pokemon-picture');
