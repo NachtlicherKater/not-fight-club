@@ -41,7 +41,7 @@
         <div class="player-pokemon-picture main-page-picture invert">
             <img src="./assets/images/characters/bulbasaur/static.png" alt="default picture of pokemon">
         </div>
-        <div id="stats">Тут будет статистика</div>
+        <div id="stats">Побед: <span id="win-stats"></span> Проигрышей: <span id="lose-stats"></span><br>Еще не стилизовано, но в целом хотя бы есть, и вроде как работает</div>
     </div>
     <div class="battle-page hide">
         <div class="user-field">
@@ -114,7 +114,7 @@
         <li><label>Чиризард<input type="radio" name="selected-pokemon" value="charizard"></label></li>
     </ul>
     </div>
-<script src="./scripts/user-info.js"></script>
+<script src="./scripts/user-info.js" type="module"></script>
 <script src="./scripts/hitting-indicator.js"></script>
 <script src="./scripts/fight.js" type="module"></script>
 </body>

@@ -1,8 +1,14 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
 
-const sex = localStorage.getItem("sex")
+const defaultPokemon = "bulbasaur";
+const sex = localStorage.getItem("sex");
+const fightButton = document.getElementById("fight-button");
+const settingsButton = document.getElementById('settings-button');
 const logsList = document.getElementById("logs-list");
+const playerPictureContainer = document.querySelectorAll('.player-pokemon-picture');
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
+const winStats = document.querySelector('#win-stats');
+const loseStats = document.querySelector('#lose-stats');
 const visiblePlayerHealth = document.querySelector('#player-health');
 const visiblePlayerLvl = document.querySelector('#player-lvl');
 const visibleEnemyName = document.querySelector('#enemy-name');
@@ -13,16 +19,16 @@ const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-leg
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
 
 let playerselectedPokemon = localStorage.getItem("selectedPokemon");
-if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-  alert("ОШИБКА! Выберите своего покемона в настройках!");
-}
 
 let playerPokemon = { ...pokemons[playerselectedPokemon] }; // do a copy by selected pokemon
 let botPokemonName = null; //just a name
 let botPokemon = null;
 
 
-
+let winCounter = localStorage.getItem("wins");
+let loseCounter = localStorage.getItem("loses");
+winStats.textContent = winCounter;
+loseStats.textContent = loseCounter;
 // LOGIC
 
 function getRandomZones(array, count) {
@@ -39,7 +45,7 @@ function getRandomZones(array, count) {
 }
 
 
-function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, criticalHit) {
+function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, criticalHitChance) {
   let totalDamage = 0;
   let wasCrit = false; // for logging
 
@@ -48,7 +54,7 @@ function calculateDamage(attackZones, defenseZones, damage, criticaHitChance, cr
         //if true - deal dmg
       const isCrit = Math.random() * 100 < criticaHitChance;
       if (isCrit) wasCrit = true;
-      totalDamage += isCrit ? damage * criticalHit : damage;
+      totalDamage += isCrit ? damage * criticalHitChance : damage;
     }
   });
 
@@ -72,19 +78,19 @@ function showContinueDialog(onYes, onNo, winner) {
   resultWindow.innerHTML = `
                         <div class="dialog-box">
                         <p>Победил ${winner}!</p>
-                        <p>Продолжить?</p>
-                        <button id="continue-yes">Да</button>
-                        <button id="continue-no">Нет</button>
+                        <p>Повторить с этим же соперником?</p>
+                        <button id="repeat-yes">Да</button>
+                        <button id="repeat-no">Нет, другого</button>
                         </div>
                     `
   ;
   document.body.appendChild(resultWindow); // add this div to the end of html next to </body>
 
-  document.getElementById("continue-yes").onclick = () => {
+  document.getElementById("repeat-yes").onclick = () => {
     resultWindow.remove();
     onYes(winner);
   };
-  document.getElementById("continue-no").onclick = () => {
+  document.getElementById("repeat-no").onclick = () => {
     resultWindow.remove();
     onNo(winner);
   };
@@ -106,10 +112,23 @@ function getSelectedZones() {
 }
 
 let nickname = "";
+let isBattleFinished = true;
+initPlayerPokemon();
+
+settingsButton.addEventListener("click", () => {
+ if (isBattleFinished === false) { 
+  addLog("Игрок зашел в настройки. Бой прерван - НР покемонов будут восстановлены.");
+  isBattleFinished = true;
+  fightButton.textContent = "Начать бой!";
+  botPokemon = { ...pokemons[botPokemonName] }; 
+ }
+});
 
 // Listeners
-document.getElementById("fight-button").addEventListener("click", () => {
+fightButton.addEventListener("click", () => {
   const { atkButtons, defButtons } = getSelectedZones();
+
+  const sex = localStorage.getItem("sex");
 
   if (!atkButtons) {
     alert("Выберите 1 зону атаки");
@@ -119,19 +138,21 @@ document.getElementById("fight-button").addEventListener("click", () => {
     alert("Нужно выбрать 2 зоны защиты");
     return;
   }
-
-  chooseBot();
-  nickname = localStorage.getItem("nickname")
-  playerselectedPokemon = localStorage.getItem("selectedPokemon");
-  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-    alert("ОШИБКА! Выберите своего покемона в настройках!");
+  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]){
+        localStorage.setItem("selectedPokemon", "bulbasaur");
+      alert('Я не знаю как ты это сделал, но строка твоего покемона приняла что-то кроме строки существующих покемонов. \nВыдам тебе дефолтного Бульвазавра😐');
+      }
+  if (isBattleFinished) {
+    playerselectedPokemon = localStorage.getItem("selectedPokemon");
+    playerPokemon = { ...pokemons[playerselectedPokemon] };
+    playerPokemon.health = pokemons[playerselectedPokemon].health;
+    chooseBot();
+    updateStats();
+    fightButton.textContent = "Сделать ход!";
+    isBattleFinished = false; 
+    return;
   }
-  visiblePlayerLvl.textContent = playerPokemon.lvl;
-  visibleEnemyName.textContent = botPokemon.name;
-  visibleEnemyLvl.textContent = botPokemon.lvl;
-  enemyPictureContainer.forEach(container => {
-    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${savedPokemon} !!!">`;
-  });
+   
 
 
 const attackCount = botPokemon.hit; 
@@ -150,7 +171,7 @@ const botDefenses = getRandomZones(defendZones, 2);
     [atkButtons], // cuz it can be only 1 atk zone, but func is waiting for array
     botDefenses,
     playerPokemon.damage,
-    playerPokemon.criticalHit,
+    playerPokemon.criticalHitChance,
     playerPokemon.criticalHitDamage
   );
 
@@ -158,13 +179,13 @@ const botDefenses = getRandomZones(defendZones, 2);
     botAttacks,
     defButtons,
     botPokemon.damage,
-    botPokemon.criticalHit,
+    botPokemon.criticalHitChance,
     botPokemon.criticalHitDamage
   );
 
   botPokemon.health -= playerDamage;
   playerPokemon.health -= botDamage;
-    botPokemon.health = Math.max(botPokemon.health, 0);
+    botPokemon.health = Math.max(botPokemon.health, 0); // max - pokemon hp | min - 0 hp
     playerPokemon.health = Math.max(playerPokemon.health, 0);
 
   console.log(`Бот (${botPokemon.name}) здоровье: ${botPokemon.health}`);
@@ -175,19 +196,38 @@ const botDefenses = getRandomZones(defendZones, 2);
 
   if (playerPokemon.health <= 0 || botPokemon.health <= 0) {
     const winner = playerPokemon.health > 0 ? nickname : botPokemon.name;
+    
+    if (winner === nickname) {
+      winCounter++;
+      localStorage.setItem("wins", winCounter);
+    } else {
+      loseCounter++;
+      localStorage.setItem("loses", loseCounter);
+    }
+    
+    fightButton.textContent = "Начать бой!";
+    
 
-    showContinueDialog(() => {
+    showContinueDialog(
+    // onYes
+    () => {
+      isBattleFinished = true; 
+      updateStats();
+      botPokemon = { ...pokemons[botPokemonName] }; 
+    },
+    // onNo
+    () => {
+      isBattleFinished = true;
       if (winner === nickname) {
         botPokemon = null;
         chooseBot();
       } else {
-        playerPokemon= { ...pokemons[playerselectedPokemon] };
+        playerPokemon = { ...pokemons[playerselectedPokemon] };
+        updateStats();
         botPokemon = null;
         chooseBot();
       } 
-    }, (winner) => {
-    console.log(`Игрок выбрал 'Нет'. Бой остановлен. Победитель: ${winner}`);
-  }, winner);
+    }, winner);
   } 
 
 ////// LOGS /////
@@ -208,7 +248,6 @@ function zonesToText(zones, phrases) {
     "def-groin": "пах",
     "def-legs": "ноги",
 };
-
 
 if(sex === "male") {
     
@@ -244,7 +283,7 @@ else if (sex === "female") {
 ////// LOGS /////
 });
 
-function addLog(message) {
+ function addLog(message) {
   const li = document.createElement("li"); // create new li
   li.textContent = message;                // write text
   li.style.color = "white";          // style
@@ -252,3 +291,30 @@ function addLog(message) {
   logsList.scrollTop = logsList.scrollHeight; // автопрокрутка вниз
 }
 
+ function updateStats() {
+  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]){
+  localStorage.setItem("selectedPokemon", "bulbasaur");}
+  nickname = localStorage.getItem("nickname") || "Игрок";
+  winCounter = localStorage.getItem("wins") || 0;
+  loseCounter = localStorage.getItem("loses") || 0;
+  winStats.textContent = winCounter;
+  loseStats.textContent = loseCounter;
+  visiblePlayerHealth.textContent = playerPokemon.health;
+  visiblePlayerLvl.textContent = playerPokemon.lvl;
+  visibleEnemyName.textContent = botPokemon.name;
+  visibleEnemyHealth.textContent = botPokemon.health;
+  visibleEnemyLvl.textContent = botPokemon.lvl;
+  playerPictureContainer.forEach(container => {
+    container.innerHTML = `<img src="./assets/images/characters/${playerselectedPokemon}/static.png" alt="This is ${playerselectedPokemon} !!!">`;
+  });
+  enemyPictureContainer.forEach(container => {
+    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${botPokemonName} !!!">`;
+  });
+}
+
+export function initPlayerPokemon() {
+  playerselectedPokemon = localStorage.getItem("selectedPokemon") || defaultPokemon;
+  nickname = localStorage.getItem("nickname") || "Игрок";
+  playerPokemon = { ...pokemons[playerselectedPokemon] };
+  playerPokemon.health = pokemons[playerselectedPokemon].health;
+}
