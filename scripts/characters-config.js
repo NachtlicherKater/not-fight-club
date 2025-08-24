@@ -6,7 +6,8 @@ export const pokemons = {
     hit: 1,                   //count of hits 
     criticalHitChance: 15,          
     criticalHitDamage: 2.0,   //crit multiplier
-    lvl: 3
+    lvl: 3,
+    maxExperince: 500
   },
 
   bulbasaur: {
@@ -14,9 +15,10 @@ export const pokemons = {
     health: 80,
     damage: 20,
     hit: 1,
-    criticalHit: 5,
+    criticalHitChance: 5,
     criticalHitDamage: 1.5,
-    lvl: 1
+    lvl: 1,
+    maxExperince: 100
   },
 
     charizard: {
@@ -24,9 +26,10 @@ export const pokemons = {
     health: 150,
     damage: 55,
     hit: 1,
-    criticalHit: 20,         
+    criticalHitChance: 20,         
     criticalHitDamage: 2.0,
-    lvl: 3   
+    lvl: 3,
+    maxExperince: 500 
   },
   
     charmaleon: {
@@ -34,9 +37,10 @@ export const pokemons = {
     health: 100,
     damage: 45,
     hit: 1,
-    criticalHit: 10,         
+    criticalHitChance: 10,         
     criticalHitDamage: 2.0,
-    lvl: 2
+    lvl: 2,
+    maxExperince: 250
   },
   
     charmander: {
@@ -44,9 +48,10 @@ export const pokemons = {
     health: 70,
     damage: 30,
     hit: 1,
-    criticalHit: 5,         
+    criticalHitChance: 5,         
     criticalHitDamage: 2.0,
-    lvl: 1   
+    lvl: 1,
+    maxExperince: 100   
   },
   
     cloyster: {
@@ -54,7 +59,7 @@ export const pokemons = {
     health: 180,
     damage: 15,
     hit: 1,
-    criticalHit: 10,         
+    criticalHitChance: 10,         
     criticalHitDamage: 1.5,
     lvl: 2   
   },
@@ -64,9 +69,10 @@ export const pokemons = {
     health: 120,
     damage: 30,
     hit: 1,
-    criticalHit: 10,         
+    criticalHitChance: 10,         
     criticalHitDamage: 2.0,
-    lvl: 2  
+    lvl: 2,
+    maxExperince: 250 
   },
   
     jolteon: {
@@ -74,7 +80,7 @@ export const pokemons = {
     health: 100,
     damage: 35,
     hit: 2,
-    criticalHit: 10,         
+    criticalHitChance: 10,         
     criticalHitDamage: 2.0,
     lvl: 2   
   },
@@ -84,7 +90,7 @@ export const pokemons = {
     health: 180,
     damage: 15,
     hit:2,
-    criticalHit: 15,         
+    criticalHitChance: 15,         
     criticalHitDamage: 2.0,
     lvl: 3   
   },
@@ -94,7 +100,7 @@ export const pokemons = {
     health: 100,
     damage: 40,
     hit: 2,
-    criticalHit: 7,         
+    criticalHitChance: 7,         
     criticalHitDamage: 1.5,
     lvl: 3   
   },
@@ -104,7 +110,7 @@ export const pokemons = {
     health: 120,
     damage: 35,
     hit: 2,
-    criticalHit: 5,         
+    criticalHitChance: 5,         
     criticalHitDamage: 2.0,
     lvl: 3   
   },
@@ -114,7 +120,7 @@ export const pokemons = {
     health: 120,
     damage: 15,
     hit: 2,
-    criticalHit: 10,         
+    criticalHitChance: 10,         
     criticalHitDamage: 2.0,
     lvl: 2   
   },
@@ -124,9 +130,10 @@ export const pokemons = {
     health: 100,
     damage: 15,
     hit: 1,
-    criticalHit: 5,         
+    criticalHitChance: 5,         
     criticalHitDamage: 1.7,
-    lvl: 1   
+    lvl: 1,
+    maxExperince: 100   
   },
   
     venusaur: {
@@ -134,9 +141,10 @@ export const pokemons = {
     health: 240,
     damage: 40,
     hit: 1,
-    criticalHit: 15,         
+    criticalHitChance: 15,         
     criticalHitDamage: 1.5,
-    lvl: 3   
+    lvl: 3,
+    maxExperince: 500  
   },
   
     wartortle: {
@@ -144,8 +152,9 @@ export const pokemons = {
     health: 160,
     damage: 25,
     hit: 1,
-    criticalHit: 10,         
+    criticalHitChance: 10,         
     criticalHitDamage: 1.5,
-    lvl: 2   
+    lvl: 2,
+    maxExperince: 250   
   }
 };

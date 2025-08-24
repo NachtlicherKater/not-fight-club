@@ -1,5 +1,5 @@
 import { pokemons } from "./characters-config.js";
-import { initPlayerPokemon } from './fight.js';
+import { initPlayerPokemon, updateUnlocks } from './fight.js';
 
 const nickInput = document.getElementById('nick-input');
 const winCounter = document.querySelector('#win-stats');
@@ -30,6 +30,7 @@ const savedSex = localStorage.getItem("sex");
 const savedPokemon = localStorage.getItem("selectedPokemon");
 const isRegistered = localStorage.getItem("isRegistered");
 const selectedPokemon = localStorage.getItem("selectedPokemon");
+updateUnlocks();
 
 if (isRegistered === "true") {
   registrationWindow.classList.add("hide"); //hide reg form

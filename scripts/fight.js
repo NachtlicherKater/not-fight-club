@@ -3,6 +3,9 @@ import { pokemons } from "./characters-config.js"; // list of pokemons
 const defaultPokemon = "bulbasaur";
 const sex = localStorage.getItem("sex");
 const fightButton = document.getElementById("fight-button");
+const confirmButton = document.getElementById('save-name');
+const closeSettingsButton = document.getElementById('close-settings')
+const unlockPokemonButtonOK = document.getElementById('unlock-pokemon-button');
 const settingsButton = document.getElementById('settings-button');
 const logsList = document.getElementById("logs-list");
 const playerPictureContainer = document.querySelectorAll('.player-pokemon-picture');
@@ -14,6 +17,15 @@ const visiblePlayerLvl = document.querySelector('#player-lvl');
 const visibleEnemyName = document.querySelector('#enemy-name');
 const visibleEnemyHealth = document.querySelector('#enemy-health');
 const visibleEnemyLvl = document.querySelector('#enemy-lvl');
+const visibleUserExperience = document.querySelector('#experience-user');
+const visibleUserExperienceMax = document.querySelector('#experience-user-max');
+//unlockable pokemons
+const unlockIvysaur = document.querySelector('input[value="ivysaur"]').parentElement;
+const unlockVenusaur = document.querySelector('input[value="venusaur"]').parentElement;
+const unlockWartortle = document.querySelector('input[value="wartortle"]').parentElement;
+const unlockBlastoise = document.querySelector('input[value="blastoise"]').parentElement;
+const unlockCharmaleon = document.querySelector('input[value="charmaleon"]').parentElement;
+const unlockCharizard = document.querySelector('input[value="charizard"]').parentElement;
 
 const attackZones = ["atk-head", "atk-chest", "atk-torso", "atk-groin", "atk-legs"];
 const defendZones = ["def-head", "def-chest", "def-torso", "def-groin", "def-legs"];
@@ -23,6 +35,7 @@ let playerselectedPokemon = localStorage.getItem("selectedPokemon");
 let playerPokemon = { ...pokemons[playerselectedPokemon] }; // do a copy by selected pokemon
 let botPokemonName = null; //just a name
 let botPokemon = null;
+
 
 
 let winCounter = localStorage.getItem("wins");
@@ -116,6 +129,8 @@ let isBattleFinished = true;
 initPlayerPokemon();
 
 settingsButton.addEventListener("click", () => {
+  updateUnlocks();
+  visibleUserExperienceMax.textContent =  pokemons[playerselectedPokemon].maxExperince;
  if (isBattleFinished === false) { 
   addLog("Игрок зашел в настройки. Бой прерван - НР покемонов будут восстановлены.");
   isBattleFinished = true;
@@ -124,10 +139,19 @@ settingsButton.addEventListener("click", () => {
  }
 });
 
+
+[confirmButton, closeSettingsButton].forEach(btn => { // one eventListener on 2 buttons
+  btn.addEventListener("click", () => {
+  initPlayerPokemon();
+  visibleUserExperienceMax.textContent =  pokemons[playerselectedPokemon].maxExperince;
+  });
+});
+
+
 // Listeners
 fightButton.addEventListener("click", () => {
   const { atkButtons, defButtons } = getSelectedZones();
-
+  updateUnlocks();
   const sex = localStorage.getItem("sex");
 
   if (!atkButtons) {
@@ -152,7 +176,7 @@ fightButton.addEventListener("click", () => {
     isBattleFinished = false; 
     return;
   }
-   
+
 
 
 const attackCount = botPokemon.hit; 
@@ -280,6 +304,8 @@ else if (sex === "female") {
     addLog(`${botPokemon.name} ${critDamageByBot} ${zonesToText(botAttacks, zones)}, ${damageDealtByBot}`);
   }
 
+  progressionForPokemon(playerselectedPokemon, pokemons[playerselectedPokemon].maxExperince, playerDamage, playerCrit ); 
+  
 ////// LOGS /////
 });
 
@@ -304,6 +330,7 @@ else if (sex === "female") {
   visibleEnemyName.textContent = botPokemon.name;
   visibleEnemyHealth.textContent = botPokemon.health;
   visibleEnemyLvl.textContent = botPokemon.lvl;
+  visibleUserExperienceMax.textContent =  pokemons[playerselectedPokemon].maxExperince;
   playerPictureContainer.forEach(container => {
     container.innerHTML = `<img src="./assets/images/characters/${playerselectedPokemon}/static.png" alt="This is ${playerselectedPokemon} !!!">`;
   });
@@ -318,3 +345,74 @@ export function initPlayerPokemon() {
   playerPokemon = { ...pokemons[playerselectedPokemon] };
   playerPokemon.health = pokemons[playerselectedPokemon].health;
 }
+
+function progressionForPokemon (selectedPoke, maximalExp, playerDamage, playerCrit ) {
+  const pokesProgression = `${selectedPoke}-progression`;
+  const pokesUnlock = `${selectedPoke}-is-unlock`;
+   
+  let currentExp = parseInt(localStorage.getItem(pokesProgression)) || 0; //parseInt for number
+  localStorage.getItem(pokesUnlock) || "False";
+
+  playerDamage > 0? currentExp += 2 : currentExp += 1; 
+  playerCrit? currentExp += 3 : currentExp += 0;
+
+
+  if (currentExp > maximalExp) {
+    currentExp = maximalExp;
+    localStorage.setItem(pokesUnlock, "True");
+  }
+
+  localStorage.setItem(pokesProgression, currentExp.toString());
+  localStorage.setItem("undefined-progression", "0");
+  visibleUserExperience.textContent = currentExp;
+
+}
+
+export function updateUnlocks() {
+   if (localStorage.getItem("bulbasaur-is-unlock") === "True") {
+    unlockIvysaur.style.display = "flex";
+    showUnlockWindow("Ивизавр", 1, "ivysaur");
+  }
+
+  if (localStorage.getItem("ivysaur-is-unlock") === "True") {
+    unlockVenusaur.style.display = "flex";
+    showUnlockWindow("Венузавр", 2, "venusaur");
+  }
+
+  if (localStorage.getItem("squirtle-is-unlock") === "True") {
+    unlockWartortle.style.display = "flex";
+    showUnlockWindow("Вартолтл", 1, "wartortle");
+  }
+
+  if (localStorage.getItem("wartortle-is-unlock") === "True") {
+    unlockBlastoise.style.display = "flex";
+    showUnlockWindow("Бластойз", 2, "blastoise");
+  }
+
+  if (localStorage.getItem("charmander-is-unlock") === "True") {
+    unlockCharmaleon.style.display = "flex";
+    showUnlockWindow("Чармалеон", 1, "charmaleon");
+  }
+
+  if (localStorage.getItem("charmaleon-is-unlock") === "True") {
+    unlockCharizard.style.display = "flex";
+    showUnlockWindow("Чаризард", 2, "charizard");
+  }
+}
+
+function showUnlockWindow(pokemonName, lvl, pokemonID) {
+  const messageKey = `${pokemonID}-unlock-message-shown`;
+
+  if (!localStorage.getItem(messageKey)) {
+    document.getElementById("unlock-message").textContent = `🎉 ${pokemonName} 🎉\n теперь доступен!`;
+    document.getElementById("unlock-picture").src = `./assets/images/characters/${pokemonID}/atk.png`;
+    document.getElementById("unlock-message-additional").textContent = `Вы максимально вкачали своего покемона ${lvl} уровня\n и теперь можете получить нового в настройках!`
+    document.getElementById("unlock-pockemon-window").style.display = "flex";
+    localStorage.setItem(messageKey, "true");
+  }
+}
+
+unlockPokemonButtonOK.addEventListener("click", () => {
+  document.getElementById("unlock-pockemon-window").style.display = "none";
+})
+  
