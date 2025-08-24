@@ -1,4 +1,9 @@
+import { pokemons } from "./characters-config.js";
+import { initPlayerPokemon } from './fight.js';
+
 const nickInput = document.getElementById('nick-input');
+const winCounter = document.querySelector('#win-stats');
+const loseCounter = document.querySelector('#lose-stats');
 //buttons
 const confirmButton = document.getElementById('save-name');
 const mainPageButton = document.getElementById('main-page-button');
@@ -24,6 +29,7 @@ const savedNick = localStorage.getItem("nickname");
 const savedSex = localStorage.getItem("sex");
 const savedPokemon = localStorage.getItem("selectedPokemon");
 const isRegistered = localStorage.getItem("isRegistered");
+const selectedPokemon = localStorage.getItem("selectedPokemon");
 
 if (isRegistered === "true") {
   registrationWindow.classList.add("hide"); //hide reg form
@@ -32,8 +38,17 @@ if (isRegistered === "true") {
   if (settingsOverview) settingsPage.appendChild(settingsOverview); // move 'em to settings
   if (settingsPlayer) settingsPage.appendChild(settingsPlayer); 
 }
+if (!selectedPokemon || !pokemons[selectedPokemon]){
+  localStorage.setItem("selectedPokemon", "bulbasaur"); //default pokemon
+}
 if (!savedNick) {
   localStorage.setItem("nickname", "Игрок"); // if nothing was inputed
+}
+if (!localStorage.getItem("wins")) { // just adding stats
+  localStorage.setItem("wins", "0");
+}
+if (!localStorage.getItem("loses")) {
+  localStorage.setItem("loses", "0");
 }
 if (savedNick) {        
   playerName.forEach(element => { // to all names in array
@@ -72,6 +87,9 @@ confirmButton.addEventListener("click", () => {
   settingsPage.classList.add("hide-settings");
   settingsPage.appendChild(settingsOverview); // move to settings
   settingsPage.appendChild(settingsPlayer);
+  winCounter.textContent = localStorage.getItem("wins") || 0;
+  loseCounter.textContent = localStorage.getItem("loses") || 0;
+  initPlayerPokemon();// update pokemon for battle function
 });
  });
 
@@ -95,6 +113,7 @@ mainPageButton.addEventListener("click", () => {
 });
 
 battleButton.addEventListener("click", () => {
+  initPlayerPokemon(); // update pokemon for battle function
   battlePage.classList.remove("hide");
   battlePage.classList.add("show");
   mainPage.classList.remove("show");
