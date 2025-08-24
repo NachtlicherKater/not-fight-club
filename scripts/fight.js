@@ -1,8 +1,9 @@
 import { pokemons } from "./characters-config.js"; // list of pokemons
+import {settingsButton, closeSettingsButton} from "./user-info.js"
 
 const defaultPokemon = "bulbasaur";
 const sex = localStorage.getItem("sex");
-const battleButton = document.getElementById("fight-button");
+const fightButton = document.getElementById("fight-button");
 const logsList = document.getElementById("logs-list");
 const playerPictureContainer = document.querySelectorAll('.player-pokemon-picture');
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
@@ -24,7 +25,6 @@ let botPokemonName = null; //just a name
 let botPokemon = null;
 
 
-let isBattleStarted = false;
 let winCounter = localStorage.getItem("wins");
 let loseCounter = localStorage.getItem("loses");
 winStats.textContent = winCounter;
@@ -78,19 +78,19 @@ function showContinueDialog(onYes, onNo, winner) {
   resultWindow.innerHTML = `
                         <div class="dialog-box">
                         <p>Победил ${winner}!</p>
-                        <p>Продолжить?</p>
-                        <button id="continue-yes">Да</button>
-                        <button id="continue-no">Нет</button>
+                        <p>Повторить с этим же соперником?</p>
+                        <button id="repeat-yes">Да</button>
+                        <button id="repeat-no">Нет, другого</button>
                         </div>
                     `
   ;
   document.body.appendChild(resultWindow); // add this div to the end of html next to </body>
 
-  document.getElementById("continue-yes").onclick = () => {
+  document.getElementById("repeat-yes").onclick = () => {
     resultWindow.remove();
     onYes(winner);
   };
-  document.getElementById("continue-no").onclick = () => {
+  document.getElementById("repeat-no").onclick = () => {
     resultWindow.remove();
     onNo(winner);
   };
@@ -112,9 +112,20 @@ function getSelectedZones() {
 }
 
 let nickname = "";
+let isBattleFinished = true;
+initPlayerPokemon();
+
+settingsButton.addEventListener("click", () => {
+ if (isBattleFinished === false) { 
+  addLog("Игрок зашел в настройки. Бой прерван - НР покемонов будут восстановлены.");
+  isBattleFinished = true;
+  fightButton.textContent = "Начать бой!";
+  botPokemon = { ...pokemons[botPokemonName] }; 
+ }
+});
 
 // Listeners
-battleButton.addEventListener("click", () => {
+fightButton.addEventListener("click", () => {
   const { atkButtons, defButtons } = getSelectedZones();
 
   if (!atkButtons) {
@@ -125,20 +136,21 @@ battleButton.addEventListener("click", () => {
     alert("Нужно выбрать 2 зоны защиты");
     return;
   }
-
-  chooseBot(); 
-  //update on button
-  playerselectedPokemon = localStorage.getItem("selectedPokemon");
-  nickname = localStorage.getItem("nickname");
-    if (!playerselectedPokemon || !pokemons[playerselectedPokemon]) {
-      localStorage.setItem("selectedPokemon", defaultPokemon); 
-      playerselectedPokemon = defaultPokemon; 
-      alert("❌ОШИБКА! Был выбран несуществующий покемон!❌\n\nПокемон сменился на дефолтного - Бульбазавр");
-      playerPokemon = { ...pokemons[playerselectedPokemon] };
-      updateStats(); 
-    }
-  updateStats();
-  battleButton.textContent = "Сделать ход!";
+  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]){
+        localStorage.setItem("selectedPokemon", "bulbasaur");
+      alert('Я не знаю как ты это сделал, но строка твоего покемона приняла что-то кроме строки существующих покемонов. \nВыдам тебе дефолтного Бульвазавра😐');
+      }
+  if (isBattleFinished) {
+    playerselectedPokemon = localStorage.getItem("selectedPokemon");
+    playerPokemon = { ...pokemons[playerselectedPokemon] };
+    playerPokemon.health = pokemons[playerselectedPokemon].health;
+    chooseBot();
+    updateStats();
+    fightButton.textContent = "Сделать ход!";
+    isBattleFinished = false; 
+    return;
+  }
+   
 
 
 const attackCount = botPokemon.hit; 
@@ -190,20 +202,30 @@ const botDefenses = getRandomZones(defendZones, 2);
       loseCounter++;
       localStorage.setItem("loses", loseCounter);
     }
+    
+    fightButton.textContent = "Начать бой!";
+    
 
-    battleButton.textContent = "Начать бой!";
-    updateStats();
-
-    showContinueDialog(() => {
+    showContinueDialog(
+    // onYes
+    () => {
+      isBattleFinished = true; 
+      updateStats();
+      botPokemon = { ...pokemons[botPokemonName] }; 
+    },
+    // onNo
+    () => {
+      isBattleFinished = true;
       if (winner === nickname) {
         botPokemon = null;
         chooseBot();
       } else {
-        playerPokemon= { ...pokemons[playerselectedPokemon] };
+        playerPokemon = { ...pokemons[playerselectedPokemon] };
+        updateStats();
         botPokemon = null;
         chooseBot();
       } 
-    }, (winner) => {}, winner);
+    }, winner);
   } 
 
 ////// LOGS /////
@@ -268,14 +290,25 @@ function addLog(message) {
 }
 
 function updateStats() {
+  if (!playerselectedPokemon || !pokemons[playerselectedPokemon]){
+  localStorage.setItem("selectedPokemon", "bulbasaur");}
+  nickname = localStorage.getItem("nickname") || "Игрок";
+  visiblePlayerHealth.textContent = playerPokemon.health;
   visiblePlayerLvl.textContent = playerPokemon.lvl;
   visibleEnemyName.textContent = botPokemon.name;
+  visibleEnemyHealth.textContent = botPokemon.health;
   visibleEnemyLvl.textContent = botPokemon.lvl;
   playerPictureContainer.forEach(container => {
     container.innerHTML = `<img src="./assets/images/characters/${playerselectedPokemon}/static.png" alt="This is ${playerselectedPokemon} !!!">`;
   });
   enemyPictureContainer.forEach(container => {
-    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${savedPokemon} !!!">`;
+    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${botPokemonName} !!!">`;
   });
-  isBattleStarted = true;
+}
+
+function initPlayerPokemon() {
+  playerselectedPokemon = defaultPokemon;
+  nickname = localStorage.getItem("nickname") || "Игрок";
+  playerPokemon = { ...pokemons[playerselectedPokemon] };
+  playerPokemon.health = pokemons[playerselectedPokemon].health;  
 }
