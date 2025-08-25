@@ -9,7 +9,7 @@ const confirmButton = document.getElementById('save-name');
 const mainPageButton = document.getElementById('main-page-button');
 const battleButton = document.getElementById('battle-button');
 const settingsButton = document.getElementById('settings-button');
-const settingsButtonOnMainPage = document.querySelector('.pic-main-page');
+const settingsButtonOnMainPage = document.querySelector('.main-page-picture');
 const closeSettingsButton = document.getElementById('close-settings')
 //reg-form
 const playerName = document.querySelectorAll('.player-name');
@@ -123,12 +123,17 @@ battleButton.addEventListener("click", () => {
 });
 
 
-[settingsButton,settingsButtonOnMainPage].forEach(button => {
-  button.addEventListener("click", () => {
+settingsButton.addEventListener("click", () => {
   settingsPage.classList.remove("hide-settings");
   settingsPage.classList.add("show-settings");
 });
-} )
+
+settingsButtonOnMainPage.addEventListener("click", (e) => {
+  if (e.target.tagName === 'IMG') { // cuz dynamic img in this div loads much slower, and we looking for it here
+  settingsPage.classList.remove("hide-settings");
+  settingsPage.classList.add("show-settings");
+  }
+});
 
 closeSettingsButton.addEventListener("click", () => {
   const selectedSex = document.querySelector('input[name="sex"]:checked').value;
