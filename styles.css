@@ -291,11 +291,78 @@ h1 {
 }
 
 .main-page-picture img {
-    position: relative;
-    top: 0px;
-    left: calc(100% - 360px);
+    position: absolute;
+    top: 170px;
+    left: 130px;
     width: 200px;
     filter: grayscale(80%);
+        pointer-events: auto;
+}
+
+#about-game-button {
+    position: absolute;
+    top: 30px;
+    left: 1350px;
+    width: 100px;
+    cursor: pointer;
+}
+
+#about-pokemons-button {
+    position: absolute;
+    top: 30px;
+    right: 1350px;
+    width: 100px;
+    cursor: pointer;
+}
+
+#about-game-window {
+    position: absolute;
+    z-index: 10;
+    top: 10%;
+    left: calc((100% - 70%) / 2);
+    width: 70%;
+    height: 85%;
+    background: rgba(20, 20, 20, 0.97);
+    color: whitesmoke;
+    border-radius: 20px;
+    padding: 50px;
+    font-size: 25px;
+    text-align: center;
+}
+
+#about-pokemons-window {position: absolute;
+    z-index: 10;
+    top: 10%;
+    left: calc((100% - 70%) / 2);
+    width: 70%;
+    height: 85%;
+    background: rgba(20, 20, 20, 0.97);
+    color: whitesmoke;
+    border-radius: 20px;
+    padding: 50px;
+    font-size: 25px;
+    text-align: center;
+}
+
+h3 {font-size: 50px; margin-bottom: 50px;}
+
+#about-game-window p {
+    margin-bottom: 25px;
+}
+
+.main-page-picture img, #close-settings, #close-about-game-window, #close-about-pokemons-window, #about-pokemons-button {
+    cursor: pointer;
+}
+#close-about-game-window{ 
+    position: absolute;
+    top: 30px;
+    left: 960px;
+    width: 50px;
+    filter: invert();
+}
+
+.main-page-picture img:hover, #about-game-button:hover, #close-settings:hover, #close-about-game-window:hover, #close-about-pokemons-window:hover, #about-pokemons-button:hover {
+    transform: scale(1.2);
 }
 
 #stats {
@@ -544,10 +611,9 @@ h1 {
 
 #close-settings {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    font-size: 50px;
-    width: 60px;
+    top: 30px;
+    right: 30px;
+    width: 45px;
     cursor: pointer;
 }
 
