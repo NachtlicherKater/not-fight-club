@@ -44,16 +44,21 @@
     </div>
     <div class="main-page show">
         <h1>Pokemon Fight</h1>
+        <img id="about-pokemons-button" src="./assets/images/icons/glossary.png" alt="glossary of pokemons">
+        <div id="about-pokemons-window" class="hide">
+            <img id="close-about-pokemons-window" src="./assets/images/icons/close.png" alt="close button">
+            fsafas
+        </div>
         <img id="about-game-button" src="./assets/images/icons/question.png" alt="info about game">
-        <div id="about-game-window">
+        <div id="about-game-window" class="hide">
+            <img id="close-about-game-window" src="./assets/images/icons/close.png" alt="close button">
             <h3>Как играть?</h3>
             <p>Все достаточно просто. Игра расчитана на удачу, Ваша задача просто <span style="color: #e4ec98 ;">выбирать 1 зону удара и 2 зоны защиты</span>, в свою очередь покемон соперник защищает также две зоны, но некоторые покемоны могут также быть еще и в две точки.</p> 
             <p>На данный момент в игре <span style="color: #e4ec98 ;">всего 15 покемонов</span>. И двойным ударом обладают: Джолтеон, Мьюту, Майтиена и Сэндслэш.</p>
             <p>В будущем покемоны будут добавлятся до того момента, как мне просто не станет лень вырезать картинки🙄</p>
             <p><span style="color: #e4ec98 ;">Игра толком не балансировалась</span> и делалась в спешке последнее время, так что Вы получив покемонов первых лвлов будете страдать, и единственный шанс на первое время биться только с такими же слабыми покемонами 1 уровней.</p><p><span style="color: #e4ec98 ;">У каждого из 3 покемонов есть 3 уровня (его эволюция)</span>. Каждая эволюция дает больше урона, шанса на крит и жизней. Прокачка покемонов сделана путем добавления очков к счетчику Experience: Удар прошел - 2 очка. Удар отбит противником - 1 очко. Игрок совершил КРИТИЧЕСКИЙ УДАР - 5 очков.</p>
-
         </div>
-        <div class="player-pokemon-picture main-page-picture invert pic-main-page">
+        <div class="player-pokemon-picture main-page-picture invert">
             <img src="./assets/images/characters/bulbasaur/static.png" alt="default picture of pokemon">
         </div>
         <div id="stats">Побед: <span id="win-stats"></span> Проигрышей: <span id="lose-stats"></span><br>Еще не стилизовано, но в целом хотя бы есть, и вроде как работает</div>
@@ -125,10 +130,12 @@
         </div>
     </div>
     <div class="settings-page hide-settings">
-        <button id="close-settings">X</button>
+        <img id="close-settings" src="./assets/images/icons/close.png" alt="close button">
     </div>
+<script src="./scripts/main-page.js" type="module"></script>
+<script src="./scripts/fight.js" type="module"></script>
 <script src="./scripts/user-info.js" type="module"></script>
 <script src="./scripts/hitting-indicator.js"></script>
-<script src="./scripts/fight.js" type="module"></script>
+
 </body>
 </html>
