@@ -9,6 +9,7 @@ const confirmButton = document.getElementById('save-name');
 const mainPageButton = document.getElementById('main-page-button');
 const battleButton = document.getElementById('battle-button');
 const settingsButton = document.getElementById('settings-button');
+const settingsButtonOnMainPage = document.querySelector('.pic-main-page');
 const closeSettingsButton = document.getElementById('close-settings')
 //reg-form
 const playerName = document.querySelectorAll('.player-name');
@@ -121,10 +122,13 @@ battleButton.addEventListener("click", () => {
   mainPage.classList.add("hide");
 });
 
-settingsButton.addEventListener("click", () => {
+
+[settingsButton,settingsButtonOnMainPage].forEach(button => {
+  button.addEventListener("click", () => {
   settingsPage.classList.remove("hide-settings");
   settingsPage.classList.add("show-settings");
 });
+} )
 
 closeSettingsButton.addEventListener("click", () => {
   const selectedSex = document.querySelector('input[name="sex"]:checked').value;
