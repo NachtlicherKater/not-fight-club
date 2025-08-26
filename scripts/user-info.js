@@ -107,11 +107,14 @@ choosePokemon.forEach(choose => {
   });
 });
 
+localStorage.setItem("inBattlePage", "false" ) || "false";
+
 mainPageButton.addEventListener("click", () => {
   mainPage.classList.remove("hide");
   mainPage.classList.add("show");
   battlePage.classList.remove("show");
   battlePage.classList.add("hide");
+  localStorage.setItem("inBattlePage", "false" ); 
 });
 
 battleButton.addEventListener("click", () => {
@@ -120,6 +123,7 @@ battleButton.addEventListener("click", () => {
   battlePage.classList.add("show");
   mainPage.classList.remove("show");
   mainPage.classList.add("hide");
+  localStorage.setItem("inBattlePage", "true" ); // to be in battle page on restart
 });
 
 
