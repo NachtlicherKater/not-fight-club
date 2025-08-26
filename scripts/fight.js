@@ -127,6 +127,9 @@ function getSelectedZones() {
 let nickname = "";
 let isBattleFinished = true;
 initPlayerPokemon();
+if (!loadBattle()) {
+  updateStats();
+}
 
 settingsButton.addEventListener("click", () => {
   updateUnlocks();
@@ -305,7 +308,7 @@ else if (sex === "female") {
   }
 
   progressionForPokemon(playerselectedPokemon, pokemons[playerselectedPokemon].maxExperince, playerDamage, playerCrit ); 
-  
+  saveBattle(); //savin everything after this turn
 ////// LOGS /////
 });
 
@@ -327,24 +330,43 @@ else if (sex === "female") {
   loseStats.textContent = loseCounter;
   visiblePlayerHealth.textContent = playerPokemon.health;
   visiblePlayerLvl.textContent = playerPokemon.lvl;
-  visibleEnemyName.textContent = botPokemon.name;
-  visibleEnemyHealth.textContent = botPokemon.health;
-  visibleEnemyLvl.textContent = botPokemon.lvl;
+
+  if (botPokemon) {
+    visibleEnemyName.textContent = botPokemon.name;
+    visibleEnemyHealth.textContent = botPokemon.health;
+    visibleEnemyLvl.textContent = botPokemon.lvl;
+
+    enemyPictureContainer.forEach(container => {
+      container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${botPokemonName} !!!">`;
+    });
+  } else {
+    visibleEnemyName.textContent = "Кто же он ?!";
+    visibleEnemyHealth.textContent = "Нет выбранного покемона";
+    visibleEnemyLvl.textContent = "Нет выбранного покемона";
+
+   enemyPictureContainer.forEach(container => {
+    container.innerHTML = `<img src="./assets/images/characters/default/enemy.png" alt="This is ${botPokemonName} !!!">`;
+  });
+  }
   visibleUserExperienceMax.textContent =  pokemons[playerselectedPokemon].maxExperince;
   playerPictureContainer.forEach(container => {
     container.innerHTML = `<img src="./assets/images/characters/${playerselectedPokemon}/static.png" alt="This is ${playerselectedPokemon} !!!">`;
-  });
-  enemyPictureContainer.forEach(container => {
-    container.innerHTML = `<img src="./assets/images/characters/${botPokemonName}/static.png" alt="This is ${botPokemonName} !!!">`;
   });
 }
 
 export function initPlayerPokemon() {
   playerselectedPokemon = localStorage.getItem("selectedPokemon") || defaultPokemon;
   nickname = localStorage.getItem("nickname") || "Игрок";
-  playerPokemon = { ...pokemons[playerselectedPokemon] };
-  playerPokemon.health = pokemons[playerselectedPokemon].health;
-}
+  
+  if (!playerPokemon || playerPokemon.name !== pokemons[playerselectedPokemon].name) {
+    playerPokemon = { ...pokemons[playerselectedPokemon] };
+    playerPokemon.health = pokemons[playerselectedPokemon].health; 
+  }
+
+  if (!localStorage.getItem("playerHealth")) {
+    playerPokemon.health = pokemons[playerselectedPokemon].health;
+  }
+};
 
 function progressionForPokemon (selectedPoke, maximalExp, playerDamage, playerCrit ) {
   const pokesProgression = `${selectedPoke}-progression`;
@@ -416,3 +438,35 @@ unlockPokemonButtonOK.addEventListener("click", () => {
   document.getElementById("unlock-pockemon-window").style.display = "none";
 })
   
+function saveBattle() {
+  localStorage.setItem("playerHealth", playerPokemon.health);
+  localStorage.setItem("botHealth", botPokemon.health);
+  localStorage.setItem("botName", botPokemonName);
+  localStorage.setItem("isBattleFinished", isBattleFinished ? "true" : "false");
+
+  let logs = Array.from(logsList.querySelectorAll("li")).map(li => li.textContent);
+            //do a simple strings of node (array)
+  localStorage.setItem("battleLogs", logs.join("\n")); // \n just for good looking in localStorage
+}
+
+function loadBattle() {
+  const botName = localStorage.getItem("botName");
+  if (!botName) return false;
+
+  botPokemonName = botName;
+  botPokemon = { ...pokemons[botPokemonName] };
+  botPokemon.health = parseInt(localStorage.getItem("botHealth"));
+
+  playerPokemon.health = parseInt(localStorage.getItem("playerHealth"));
+  isBattleFinished = localStorage.getItem("isBattleFinished") === "true";
+
+  logsList.innerHTML = "";
+  const logs = localStorage.getItem("battleLogs");
+  if (logs) {
+    logs.split("\n").forEach(msg => addLog(msg));
+  }
+
+  updateStats();
+  fightButton.textContent = isBattleFinished ? "Начать бой!" : "Сделать ход!";
+  return true;
+}
