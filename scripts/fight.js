@@ -7,7 +7,7 @@ const confirmButton = document.getElementById('save-name');
 const closeSettingsButton = document.getElementById('close-settings')
 const unlockPokemonButtonOK = document.getElementById('unlock-pokemon-button');
 const settingsButton = document.getElementById('settings-button');
-const logsList = document.getElementById("logs-list");
+const logsList = document.querySelector(".logs-list");
 const playerPictureContainer = document.querySelectorAll('.player-pokemon-picture');
 const enemyPictureContainer = document.querySelectorAll('.enemy-pokemon-picture');
 const winStats = document.querySelector('#win-stats');
@@ -135,7 +135,7 @@ settingsButton.addEventListener("click", () => {
   updateUnlocks();
   visibleUserExperienceMax.textContent =  pokemons[playerselectedPokemon].maxExperince;
  if (isBattleFinished === false) { 
-  addLog("Игрок зашел в настройки. Бой прерван - НР покемонов будут восстановлены.");
+  addLog("Игрок зашел в настройки. Бой прерван - НР покемонов будут восстановлены.", "alert-logs");
   isBattleFinished = true;
   fightButton.textContent = "Начать бой!";
   botPokemon = { ...pokemons[botPokemonName] }; 
@@ -279,32 +279,32 @@ function zonesToText(zones, phrases) {
 if(sex === "male") {
     
     let damageDealtByPlayer = "";
-    playerDamage > 0? damageDealtByPlayer = `и нанёс ${playerDamage} единиц урона.` : damageDealtByPlayer = `но ${botPokemon.name} заблокировал ${zonesToText(botDefenses, zones)}.`;
+    playerDamage > 0? damageDealtByPlayer = `и нанёс <span style ="color: red;">${playerDamage} единиц</span> урона.` : damageDealtByPlayer = `но ${botPokemon.name} <span style = "color: lightblue">заблокировал ${zonesToText(botDefenses, zones)}.`;
     let damageDealtByBot = "";
-    botDamage > 0? damageDealtByBot = `и нанёс ${botDamage} единиц урона.` : damageDealtByBot = `но не пробил твой блок.`;
+    botDamage > 0? damageDealtByBot = `и нанёс <span style ="color: red;">${botDamage} единиц</span> урона.` : damageDealtByBot = `<span style = "color: lightblue">но не пробил твой блок.`;
     let critDamageByPlayer = "";
-    playerCrit == true? critDamageByPlayer =`совершил КРИТИЧЕСКИЙ УДАР в район` : critDamageByPlayer=`ударил в район`;
+    playerCrit == true? critDamageByPlayer =`совершил <span style = "color:red; font-weight:bold;">КРИТИЧЕСКИЙ УДАР</span> в район` : critDamageByPlayer=`ударил в район`;
     let critDamageByBot = "";
-    botCrit == true? critDamageByBot =`совершил КРИТИЧЕСКИЙ УДАР в район` : critDamageByBot=`ударил в район`;
+    botCrit == true? critDamageByBot =`совершил <span style = "color:red; font-weight:bold;">КРИТИЧЕСКИЙ УДАР</span> в район` : critDamageByBot=`ударил в район`;
 
 
-    addLog(`${nickname} ${critDamageByPlayer} ${zonesToText(atkButtons, zones)}, ${damageDealtByPlayer}`);
-    addLog(`${botPokemon.name} ${critDamageByBot} ${zonesToText(botAttacks, zones)}, ${damageDealtByBot}`);
+    addLog(`<span style="color: #8be973ff; font-weight: bold;">${nickname}</span> ${critDamageByPlayer} <span style ="color: yellow;">${zonesToText(atkButtons, zones)}</span>, ${damageDealtByPlayer}`, "player-logs");
+    addLog(`<span style="font-weight: bold;">${botPokemon.name}</span> ${critDamageByBot} <span style ="color: yellow;">${zonesToText(botAttacks, zones)}</span>, ${damageDealtByBot}`, "bot-logs");
   }
 else if (sex === "female") {
         
     let damageDealtByPlayer = "";
-    playerDamage > 0? damageDealtByPlayer = `и нанесла ${playerDamage} единиц урона.` : damageDealtByPlayer = `но ${botPokemon.name} заблокировал ${zonesToText(botDefenses, zones)}.`;
+    playerDamage > 0? damageDealtByPlayer = `и нанесла <span style ="color: red;">${playerDamage} единиц</span> урона.` : damageDealtByPlayer = `но ${botPokemon.name} <span style = "color: lightblue">заблокировал ${zonesToText(botDefenses, zones)}.`;
     let damageDealtByBot = "";
-    botDamage > 0? damageDealtByBot = `и нанёс ${botDamage} единиц урона.` : damageDealtByBot = `но не пробил твой блок.`;
+    botDamage > 0? damageDealtByBot = `и нанёс <span style ="color: red;">${botDamage} единиц</span> урона.` : damageDealtByBot = `<span style = "color: lightblue">но не пробил твой блок.`;
     let critDamageByPlayer = "";
-    playerCrit == true? critDamageByPlayer =`совершила КРИТИЧЕСКИЙ УДАР в район` : critDamageByPlayer=`ударила в район`;
+    playerCrit == true? critDamageByPlayer =`совершила <span style = "color:red; font-weight:bold;">КРИТИЧЕСКИЙ УДАР</span> в район` : critDamageByPlayer=`ударила в район`;
     let critDamageByBot = "";
-    botCrit == true? critDamageByBot =`совершил КРИТИЧЕСКИЙ УДАР в район` : critDamageByBot=`ударил в район`;
+    botCrit == true? critDamageByBot =`совершил <span style = "color:red; font-weight:bold;">КРИТИЧЕСКИЙ УДАР</span> в район` : critDamageByBot=`ударил в район`;
 
 
-    addLog(`${nickname} ${critDamageByPlayer} ${zonesToText(atkButtons, zones)}, ${damageDealtByPlayer}`);
-    addLog(`${botPokemon.name} ${critDamageByBot} ${zonesToText(botAttacks, zones)}, ${damageDealtByBot}`);
+    addLog(`<span style="color: #8be973ff; font-weight: bold;">${nickname}</span> ${critDamageByPlayer} <span style ="color: yellow;">${zonesToText(atkButtons, zones)}</span>, ${damageDealtByPlayer}`, "player-logs");
+    addLog(`<span style="font-weight: bold;">${botPokemon.name}</span> ${critDamageByBot} <span style ="color: yellow;">${zonesToText(botAttacks, zones)}</span>, ${damageDealtByBot}`, "bot-logs");
   }
 
   progressionForPokemon(playerselectedPokemon, pokemons[playerselectedPokemon].maxExperince, playerDamage, playerCrit ); 
@@ -312,10 +312,10 @@ else if (sex === "female") {
 ////// LOGS /////
 });
 
- function addLog(message) {
+ function addLog(message, who) {
   const li = document.createElement("li"); // create new li
-  li.textContent = message;                // write text
-  li.style.color = "white";          // style
+  li.innerHTML = message;                // write text
+  li.classList.add("logs", `${who}`);           // style
   logsList.appendChild(li);                // add to ul
   logsList.scrollTop = logsList.scrollHeight; // автопрокрутка вниз
 }
@@ -444,9 +444,11 @@ function saveBattle() {
   localStorage.setItem("botName", botPokemonName);
   localStorage.setItem("isBattleFinished", isBattleFinished ? "true" : "false");
 
-  let logs = Array.from(logsList.querySelectorAll("li")).map(li => li.textContent);
-            //do a simple strings of node (array)
-  localStorage.setItem("battleLogs", logs.join("\n")); // \n just for good looking in localStorage
+  let logs = Array.from(logsList.querySelectorAll("li")).map(li => {
+                //do a simple strings of node (array)
+  return li.className + " | " + li.innerHTML; //save classes on li and li elements
+  });
+  localStorage.setItem("battleLogs", logs.join("\n")); 
 }
 
 function loadBattle() {
@@ -461,10 +463,16 @@ function loadBattle() {
   isBattleFinished = localStorage.getItem("isBattleFinished") === "true";
 
   logsList.innerHTML = "";
-  const logs = localStorage.getItem("battleLogs");
-  if (logs) {
-    logs.split("\n").forEach(msg => addLog(msg));
-  }
+const logs = localStorage.getItem("battleLogs");
+if (logs) {
+  logs.split("\n").forEach(item => {
+    const [className, html] = item.split(" | "); 
+    const li = document.createElement("li");
+    li.className = className; // classes on li
+    li.innerHTML = html;      // styles in li elemetns
+    logsList.appendChild(li);
+  });
+}
 
   updateStats();
   fightButton.textContent = isBattleFinished ? "Начать бой!" : "Сделать ход!";
