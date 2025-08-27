@@ -114,7 +114,7 @@ if (localStorage.getItem("inBattlePage") === "true") {
     battlePage.classList.add("show");
 }
 
-localStorage.getItem("inBattlePage", "false" ) || "false";
+localStorage.getItem("inBattlePage") === "true"? localStorage.setItem("inBattlePage", "true") : localStorage.setItem("inBattlePage", "false");
 
 mainPageButton.addEventListener("click", () => {
   mainPage.classList.remove("hide");
