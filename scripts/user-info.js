@@ -107,7 +107,14 @@ choosePokemon.forEach(choose => {
   });
 });
 
-localStorage.setItem("inBattlePage", "false" ) || "false";
+if (localStorage.getItem("inBattlePage") === "true") {
+    mainPage.classList.remove("show");
+    mainPage.classList.add("hide");
+    battlePage.classList.remove("hide");
+    battlePage.classList.add("show");
+}
+
+localStorage.getItem("inBattlePage") === "true"? localStorage.setItem("inBattlePage", "true") : localStorage.setItem("inBattlePage", "false");
 
 mainPageButton.addEventListener("click", () => {
   mainPage.classList.remove("hide");
@@ -147,3 +154,4 @@ closeSettingsButton.addEventListener("click", () => {
   settingsPage.classList.remove("show-settings");
   settingsPage.classList.add("hide-settings");
 });
+
