@@ -368,7 +368,7 @@ h3 {font-size: 50px; margin-bottom: 50px;}
 
 #stats {
     position: absolute;
-    top: calc(100dvh - 400px);
+    top: calc(100dvh - 540px);
     left: calc((100% - 900px) / 2 );
     width: 900px;
     height: 45%;
