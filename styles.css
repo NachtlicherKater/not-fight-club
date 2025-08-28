@@ -41,6 +41,7 @@
     user-select: none;
 }
 
+
 body {
     width: 100%;
     height: 100vh;
@@ -58,7 +59,7 @@ body {
 .registration-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 250px 1fr;
+    grid-template-rows: 150px 1fr;
     justify-content: center;
     padding: 20px 350px;
     position: fixed;
@@ -179,7 +180,7 @@ body {
 #save-name:active {background-color: #c8cf61;}
 h2 { 
     grid-area: 1 / 1 / 2 / 3; 
-    font-size: 90px; 
+    font-size: 80px; 
     text-align: center; 
     padding: 10px;
 }
@@ -276,7 +277,7 @@ h2 {
 .main-page {
     position: relative;
     width: 1500px;
-    height: 900px;
+    height: calc(100dvh - 50px);
     background: transparent;
     border: var(--reg-settings-border);
     border-radius: 0px 0px 10px 10px;
@@ -326,6 +327,8 @@ h1 {
     padding: 50px;
     font-size: 25px;
     text-align: center;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 #about-pokemons-window {position: absolute;
@@ -365,10 +368,10 @@ h3 {font-size: 50px; margin-bottom: 50px;}
 
 #stats {
     position: absolute;
-    top: 380px;
+    top: calc(100dvh - 400px);
     left: calc((100% - 900px) / 2 );
     width: 900px;
-    height: 500px;
+    height: 45%;
     border-radius: 10px;
     background: rgba(250, 250, 250, 0.8);
 }
@@ -376,7 +379,7 @@ h3 {font-size: 50px; margin-bottom: 50px;}
 /*--BATTLE SECTION--*/
 .battle-page {
     width: 1500px;
-    height: 900px;
+    height: calc(100dvh - 50px);
     border-radius: 10px;
     margin: 0px auto;
     background: #1a1c22;
@@ -586,12 +589,12 @@ h3 {font-size: 50px; margin-bottom: 50px;}
 }
 
 .logs-list {
-    height: 330px;
+    height: calc(100dvh - 631px);
     overflow-y: auto;
     scrollbar-width: none;
 }
 
-.logs-list::-webkit-scrollbar {
+.logs-list::-webkit-scrollbar, #about-game-window::-webkit-scrollbar {
     display: none; /*scrollbar for google-engine browsers*/
 }
 
